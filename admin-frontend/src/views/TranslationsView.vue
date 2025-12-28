@@ -171,9 +171,9 @@
         <el-form-item label="上下文">
           <el-input v-model="newKey.context" placeholder="说明这个翻译键的使用场景" />
         </el-form-item>
-        
+
         <el-divider content-position="left">翻译内容</el-divider>
-        
+
         <div class="language-inputs-scroll">
           <el-form-item
             v-for="lang in availableLanguages"
@@ -212,7 +212,7 @@
           ref="fileInput"
           @change="handleFileSelect"
           accept=".json"
-          class="file-input" 
+          class="file-input"
           style="display: none"
         />
         <div class="upload-area" @click="fileInput?.click()">
@@ -317,7 +317,7 @@ const loadMatrix = async () => {
   try {
     // Get languages first
     const languages = await getLanguages()
-    
+
     // Get matrix data from backend (returns map[string]map[string]string)
     const response = await api.get(`/translations/matrix/by-project/${selectedProjectId.value}`, {
       params: {
@@ -326,21 +326,21 @@ const loadMatrix = async () => {
         keyword: searchKeyword.value || undefined
       }
     }) as any
-    
+
     console.log('Translation matrix API response:', response)
-    
+
     // Extract data and meta from response
     const matrixData = response.data || {}
     const meta = response.meta || {}
-    
+
     // Transform backend map structure to TranslationMatrix
     // Backend returns: { "key1": { "en": "value1", "zh": "value2" }, ...}
     const rows: any[] = []
-    
+
     for (const [keyName, translations] of Object.entries(matrixData)) {
       if (keyName && typeof translations === 'object') {
         const translationCells: Record<string, any> = {}
-        
+
         // Transform language code -> value to our cell structure
         for (const [langCode, cellData] of Object.entries(translations as Record<string, any>)) {
           const lang = languages.find(l => l.code === langCode)
@@ -357,7 +357,7 @@ const loadMatrix = async () => {
             }
           }
         }
-        
+
         rows.push({
           key_name: keyName,
           context: '', // Backend doesn't return context in matrix view
@@ -365,7 +365,7 @@ const loadMatrix = async () => {
         })
       }
     }
-    
+
     matrix.value = {
       languages: languages.filter(l => l.status === 'active'),
       rows: rows,
@@ -374,9 +374,9 @@ const loadMatrix = async () => {
       page_size: meta.page_size || pageSize.value,
       total_pages: meta.total_pages || 1
     }
-    
+
     console.log('Transformed matrix:', matrix.value)
-    
+
   } catch (err: any) {
     error.value = err.message || '加载翻译数据失败'
     console.error('Failed to load translation matrix:', err)

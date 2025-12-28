@@ -203,8 +203,11 @@ export interface Invitation {
  * 邀请列表响应
  */
 export interface InvitationListResponse {
-  invitations: Invitation[]
-  total: number
+  data: {
+    invitations: Invitation[]
+    total: number
+  }
+  meta?: PaginationMeta
 }
 
 // ==================== 用户管理相关类型 ====================

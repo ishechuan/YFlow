@@ -12,6 +12,7 @@ import {
   Document,
   Setting,
   UserFilled,
+  Postcard,
 } from '@element-plus/icons-vue'
 
 const route = useRoute()
@@ -49,12 +50,17 @@ const menuItems = computed(() => {
     },
   ]
 
-  // 管理员才能看到用户管理
+  // 管理员才能看到用户管理和邀请管理
   if (isAdmin.value) {
     items.push({
       index: '/users',
       title: '用户管理',
       icon: UserFilled,
+    })
+    items.push({
+      index: '/invitations',
+      title: '邀请管理',
+      icon: Postcard,
     })
   }
 

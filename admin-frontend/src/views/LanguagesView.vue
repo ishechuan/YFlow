@@ -4,19 +4,11 @@
       <template #header>
         <div class="card-header">
           <h1 class="page-title">语言管理</h1>
-          <el-button type="primary" icon="Plus" @click="openAddDialog">
-            添加语言
-          </el-button>
+          <el-button type="primary" icon="Plus" @click="openAddDialog"> 添加语言 </el-button>
         </div>
       </template>
 
-      <el-table
-        v-loading="loading"
-        :data="languages"
-        style="width: 100%"
-        border
-        stripe
-      >
+      <el-table v-loading="loading" :data="languages" style="width: 100%" border stripe>
         <el-table-column prop="id" label="ID" width="80" align="center" />
         <el-table-column prop="name" label="语言名称" min-width="150" />
         <el-table-column prop="code" label="语言代码" width="120" align="center">
@@ -43,20 +35,10 @@
         </el-table-column>
         <el-table-column label="操作" width="150" align="center" fixed="right">
           <template #default="{ row }">
-            <el-button
-              type="primary"
-              link
-              icon="Edit"
-              @click="openEditDialog(row)"
-            >
+            <el-button type="primary" link icon="Edit" @click="openEditDialog(row)">
               编辑
             </el-button>
-            <el-button
-              type="danger"
-              link
-              icon="Delete"
-              @click="handleDelete(row)"
-            >
+            <el-button type="danger" link icon="Delete" @click="handleDelete(row)">
               删除
             </el-button>
           </template>
@@ -71,12 +53,7 @@
       width="500px"
       @closed="resetForm"
     >
-      <el-form
-        ref="formRef"
-        :model="formData"
-        :rules="rules"
-        label-width="100px"
-      >
+      <el-form ref="formRef" :model="formData" :rules="rules" label-width="100px">
         <el-form-item label="语言名称" prop="name">
           <el-input v-model="formData.name" placeholder="例如: 简体中文" />
         </el-form-item>
@@ -90,9 +67,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleSubmit" :loading="submitting">
-            确定
-          </el-button>
+          <el-button type="primary" @click="handleSubmit" :loading="submitting"> 确定 </el-button>
         </span>
       </template>
     </el-dialog>
@@ -102,7 +77,7 @@
 <script setup lang="ts">
 import { ref, onMounted, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { Plus, Edit, Delete, Check } from '@element-plus/icons-vue'
+import { Check } from '@element-plus/icons-vue'
 import { getLanguages, createLanguage, updateLanguage, deleteLanguage } from '@/services/language'
 import type { Language, CreateLanguageRequest } from '@/types/translation'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -135,7 +110,7 @@ const fetchLanguages = async () => {
   loading.value = true
   try {
     languages.value = await getLanguages()
-  } catch (error) {
+  } catch {
     ElMessage.error('获取语言列表失败')
   } finally {
     loading.value = false
@@ -174,7 +149,7 @@ const openEditDialog = (row: Language) => {
 
 const handleSubmit = async () => {
   if (!formRef.value) return
-  
+
   await formRef.value.validate(async (valid) => {
     if (valid) {
       submitting.value = true
@@ -188,8 +163,8 @@ const handleSubmit = async () => {
         }
         dialogVisible.value = false
         fetchLanguages()
-      } catch (error: any) {
-        ElMessage.error(error.message || '操作失败')
+      } catch (error: unknown) {
+        ElMessage.error(error instanceof Error ? error.message : '操作失败')
       } finally {
         submitting.value = false
       }
@@ -198,21 +173,17 @@ const handleSubmit = async () => {
 }
 
 const handleDelete = (row: Language) => {
-  ElMessageBox.confirm(
-    `确定要删除语言 "${row.name}" 吗？`,
-    '删除确认',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
-    }
-  ).then(async () => {
+  ElMessageBox.confirm(`确定要删除语言 "${row.name}" 吗？`, '删除确认', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning',
+  }).then(async () => {
     try {
       await deleteLanguage(row.id)
       ElMessage.success('删除成功')
       fetchLanguages()
-    } catch (error: any) {
-      ElMessage.error(error.message || '删除失败')
+    } catch (error: unknown) {
+      ElMessage.error(error instanceof Error ? error.message : '删除失败')
     }
   })
 }

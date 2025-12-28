@@ -56,6 +56,12 @@ const router = createRouter({
           component: () => import('@/views/UsersView.vue'),
           meta: { title: '用户管理', roles: ['admin'] },
         },
+        {
+          path: '/invitations',
+          name: 'invitations',
+          component: () => import('@/views/InvitationsView.vue'),
+          meta: { title: '邀请管理', roles: ['admin'] },
+        },
         // 未来可以在这里添加更多路由，如项目管理、语言管理等
       ],
     },
