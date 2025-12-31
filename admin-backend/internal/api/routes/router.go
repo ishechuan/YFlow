@@ -1,11 +1,11 @@
 package routes
 
 import (
-	"i18n-flow/internal/api/handlers"
-	"i18n-flow/internal/api/middleware"
-	"i18n-flow/internal/api/response"
-	"i18n-flow/internal/domain"
-	internal_utils "i18n-flow/internal/utils"
+	"yflow/internal/api/handlers"
+	"yflow/internal/api/middleware"
+	"yflow/internal/api/response"
+	"yflow/internal/domain"
+	internal_utils "yflow/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

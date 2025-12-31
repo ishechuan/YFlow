@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gorm.io/gorm"
 
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 func TestUserModel(t *testing.T) {

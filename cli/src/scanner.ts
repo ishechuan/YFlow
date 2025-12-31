@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI messages 目录扫描模块
+ * yflow CLI messages 目录扫描模块
  */
 
 import { readFileSync, existsSync, promises as fs } from "fs";

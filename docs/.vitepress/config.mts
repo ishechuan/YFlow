@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: "i18n-flow",
+  title: "语流",
   description: "a powerful and open source i18n solution for self hosted",
   themeConfig: {
     nav: [

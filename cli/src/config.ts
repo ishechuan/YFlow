@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI 配置文件读取模块
+ * yflow CLI 配置文件读取模块
  */
 
 import { readFileSync, existsSync } from "fs";

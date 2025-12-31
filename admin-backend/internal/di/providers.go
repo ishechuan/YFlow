@@ -3,12 +3,12 @@ package di
 import (
 	"fmt"
 
-	"i18n-flow/internal/config"
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/repository"
-	"i18n-flow/internal/service"
-	internal_utils "i18n-flow/internal/utils"
-	log_utils "i18n-flow/utils"
+	"yflow/internal/config"
+	"yflow/internal/domain"
+	"yflow/internal/repository"
+	"yflow/internal/service"
+	internal_utils "yflow/internal/utils"
+	log_utils "yflow/utils"
 
 	"go.uber.org/fx"
 	"go.uber.org/zap"

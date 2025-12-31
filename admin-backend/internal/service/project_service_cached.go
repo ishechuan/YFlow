@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 // CachedProjectService 带缓存的项目服务实现

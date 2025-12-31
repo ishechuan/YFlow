@@ -1,6 +1,6 @@
-# @i18n-flow/cli
+# @yflow/cli
 
-i18n-flow CLI 工具，用于管理前端国际化翻译与后端数据库之间的同步。
+yflow CLI 工具，用于管理前端国际化翻译与后端数据库之间的同步。
 
 ## 安装
 
@@ -10,7 +10,7 @@ bun run ./src/index.ts <命令>
 
 # 或全局安装后使用
 bun install -g .
-i18n-flow <命令>
+yflow <命令>
 ```
 
 ## 快速开始
@@ -20,7 +20,7 @@ i18n-flow <命令>
    在前端项目根目录运行：
 
    ```bash
-   i18n-flow init
+   yflow init
    ```
 
 2. **编辑配置文件**
@@ -39,13 +39,13 @@ i18n-flow <命令>
 3. **导入翻译到后端**
 
    ```bash
-   i18n-flow import
+   yflow import
    ```
 
 4. **从后端同步翻译**
 
    ```bash
-   i18n-flow sync
+   yflow sync
    ```
 
 ## 命令
@@ -55,7 +55,7 @@ i18n-flow <命令>
 创建示例配置文件。
 
 ```bash
-i18n-flow init
+yflow init
 ```
 
 ### import
@@ -63,8 +63,8 @@ i18n-flow init
 将前端 `messages` 目录的翻译导入到后端数据库。
 
 ```bash
-i18n-flow import          # 执行导入
-i18n-flow import --dry-run  # 模拟运行，不实际修改
+yflow import          # 执行导入
+yflow import --dry-run  # 模拟运行，不实际修改
 ```
 
 **工作流程：**
@@ -78,9 +78,9 @@ i18n-flow import --dry-run  # 模拟运行，不实际修改
 从后端同步翻译到前端 `messages` 目录。
 
 ```bash
-i18n-flow sync           # 同步翻译（跳过已存在的）
-i18n-flow sync --force   # 强制覆盖所有翻译
-i18n-flow sync --dry-run # 模拟运行，预览差异
+yflow sync           # 同步翻译（跳过已存在的）
+yflow sync --force   # 强制覆盖所有翻译
+yflow sync --dry-run # 模拟运行，预览差异
 ```
 
 **工作流程：**
@@ -94,7 +94,7 @@ i18n-flow sync --dry-run # 模拟运行，预览差异
 显示帮助信息。
 
 ```bash
-i18n-flow --help
+yflow --help
 ```
 
 ## 配置文件
@@ -186,7 +186,7 @@ JSON 文件格式支持嵌套：
 确保在包含 `.i18nrc.json` 文件的目录运行 CLI，或使用 `--config` 参数指定路径：
 
 ```bash
-i18n-flow import --config /path/to/.i18nrc.json
+yflow import --config /path/to/.i18nrc.json
 ```
 
 ### API 认证失败
@@ -207,5 +207,5 @@ bun install
 bun run ./src/index.ts import
 
 # 构建可执行文件
-bun build ./src/index.ts --outfile ./bin/i18n-flow
+bun build ./src/index.ts --outfile ./bin/yflow
 ```

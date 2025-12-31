@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"time"
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/utils"
+	"yflow/internal/domain"
+	"yflow/internal/utils"
 )
 
 // InvitationService 邀请码服务实现

@@ -2,20 +2,20 @@ services:
   # 数据库服务
   db:
     image: mysql:8.0
-    container_name: i18n_flow_db
+    container_name: yflow_db
     restart: unless-stopped
     environment:
       # MySQL 镜像要求的环境变量
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-password}
-      MYSQL_DATABASE: ${DB_NAME:-i18n_flow}
-      MYSQL_USER: ${DB_USERNAME:-i18nflow}
+      MYSQL_DATABASE: ${DB_NAME:-yflow}
+      MYSQL_USER: ${DB_USERNAME:-yflow}
       MYSQL_PASSWORD: ${DB_PASSWORD:-password}
     ports:
       - "${DB_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - i18n_flow_network
+      - yflow_network
     healthcheck:
       test:
         [
@@ -36,7 +36,7 @@ services:
   # Redis缓存服务
   redis:
     image: redis:7.2-alpine
-    container_name: i18n_flow_redis
+    container_name: yflow_redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -44,7 +44,7 @@ services:
       - redis_data:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
     networks:
-      - i18n_flow_network
+      - yflow_network
     command: redis-server /usr/local/etc/redis/redis.conf
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -54,7 +54,7 @@ services:
       start_period: 10s
 
 networks:
-  i18n_flow_network:
+  yflow_network:
     driver: bridge
 
 volumes:

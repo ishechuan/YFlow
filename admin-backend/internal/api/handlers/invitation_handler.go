@@ -2,10 +2,10 @@ package handlers
 
 import (
 	"time"
-	"i18n-flow/internal/api/response"
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/dto"
-	"i18n-flow/internal/utils"
+	"yflow/internal/api/response"
+	"yflow/internal/domain"
+	"yflow/internal/dto"
+	"yflow/internal/utils"
 	"strconv"
 
 	"github.com/gin-gonic/gin"

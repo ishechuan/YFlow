@@ -106,7 +106,7 @@ const handleLogout = () => {
     <el-aside :width="isCollapse ? '64px' : '240px'" class="layout-aside">
       <div class="logo-container">
         <div v-if="!isCollapse" class="logo-text">
-          <h2>i18n-flow</h2>
+          <h2>yflow</h2>
         </div>
         <div v-else class="logo-icon">
           <span>i18n</span>

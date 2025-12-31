@@ -1,7 +1,7 @@
 package routes
 
 import (
-	internal_utils "i18n-flow/internal/utils"
+	internal_utils "yflow/internal/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"

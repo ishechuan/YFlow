@@ -18,7 +18,7 @@ RUN apk add --no-cache ca-certificates git && \
 COPY . .
 
 # 构建应用
-RUN CGO_ENABLED=0 GOOS=linux go build -o i18n-flow-backend ./cmd/server
+RUN CGO_ENABLED=0 GOOS=linux go build -o yflow-backend ./cmd/server
 
 # 创建最终的轻量级镜像
 FROM alpine:latest
@@ -29,7 +29,7 @@ WORKDIR /app
 RUN apk --no-cache add ca-certificates
 
 # 从builder阶段复制编译好的二进制文件
-COPY --from=builder /app/i18n-flow-backend .
+COPY --from=builder /app/yflow-backend .
 
 # 创建.env文件存放位置
 RUN mkdir -p /app/config
@@ -39,4 +39,4 @@ VOLUME /app/config
 EXPOSE 8080
 
 # 运行应用
-CMD ["./i18n-flow-backend"]
+CMD ["./yflow-backend"]

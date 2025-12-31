@@ -1,6 +1,6 @@
 # 入门介绍
 
-了解 i18n-flow 的核心概念和基本工作流程。
+了解 yflow 的核心概念和基本工作流程。
 
 ## 核心概念
 
@@ -76,7 +76,7 @@
 
 ```bash
 # 同步翻译到本地
-i18n-flow sync
+yflow sync
 
 # 在应用中使用
 import messages from './locales/en.json'

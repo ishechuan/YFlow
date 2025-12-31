@@ -9,7 +9,7 @@ import (
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	log_utils "i18n-flow/utils"
+	log_utils "yflow/utils"
 	"go.uber.org/zap"
 )
 

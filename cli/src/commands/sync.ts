@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI sync 命令
+ * yflow CLI sync 命令
  * 从后端同步翻译到前端 messages 目录
  */
 

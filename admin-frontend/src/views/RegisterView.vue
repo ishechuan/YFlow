@@ -177,7 +177,7 @@ const getRoleDisplayName = (role: string) => {
   <div class="register-container" @keydown="handleKeydown">
     <div class="register-content">
       <div class="register-header">
-        <h1>i18n-flow</h1>
+        <h1>yflow</h1>
         <p class="subtitle">加入我们一起管理国际化资源</p>
       </div>
 

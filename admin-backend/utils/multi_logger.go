@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"i18n-flow/internal/config"
+	"yflow/internal/config"
 
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"

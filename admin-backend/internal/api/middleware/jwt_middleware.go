@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"i18n-flow/internal/api/response"
-	"i18n-flow/internal/domain"
+	"yflow/internal/api/response"
+	"yflow/internal/domain"
 	"strings"
 
 	"github.com/gin-gonic/gin"

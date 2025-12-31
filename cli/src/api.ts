@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI 后端 API 客户端
+ * yflow CLI 后端 API 客户端
  */
 
 import type { Translations, APIResponse, PushKeysResponse } from "./types.js";

@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 // CachedUserService 带缓存的用户服务实现

@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 // CachedDashboardService 带缓存的仪表板服务实现

@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: "i18n-flow"
+  name: "yflow"
   text: "国际化管理平台"
   tagline: 强大的自托管 i18n 解决方案
   actions:

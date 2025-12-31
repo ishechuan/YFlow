@@ -8,10 +8,10 @@ import (
 	"go.uber.org/fx"
 	"go.uber.org/zap"
 
-	"i18n-flow/internal/api/routes"
-	"i18n-flow/internal/config"
-	"i18n-flow/internal/di"
-	internal_utils "i18n-flow/internal/utils"
+	"yflow/internal/api/routes"
+	"yflow/internal/config"
+	"yflow/internal/di"
+	internal_utils "yflow/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )

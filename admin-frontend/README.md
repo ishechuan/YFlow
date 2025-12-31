@@ -1,6 +1,6 @@
 # admin-frontend
 
-i18n-flow 管理后台前端，基于 Vue 3 + TypeScript + Element Plus 构建。
+yflow 管理后台前端，基于 Vue 3 + TypeScript + Element Plus 构建。
 
 ## 技术栈
 

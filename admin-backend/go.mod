@@ -1,4 +1,4 @@
-module i18n-flow
+module yflow
 
 go 1.23.0
 

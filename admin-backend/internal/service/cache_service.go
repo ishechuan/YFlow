@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/repository"
+	"yflow/internal/domain"
+	"yflow/internal/repository"
 	"math/rand"
 	"time"
 

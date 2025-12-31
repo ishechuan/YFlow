@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"i18n-flow/internal/api/response"
+	"yflow/internal/api/response"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +14,7 @@ func (f *MiddlewareFactory) APIKeyAuthMiddleware() gin.HandlerFunc {
 		expectedAPIKey := os.Getenv("CLI_API_KEY")
 		if expectedAPIKey == "" {
 			// 如果没有设置环境变量，使用默认值（开发环境）
-			expectedAPIKey = "i18n-flow-cli-default-key"
+			expectedAPIKey = "yflow-cli-default-key"
 		}
 
 		// 从请求头获取API Key

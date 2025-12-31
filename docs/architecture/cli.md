@@ -39,7 +39,7 @@ import { importCommand } from './commands/import'
 const program = new Command()
 
 program
-  .name('i18n-flow')
+  .name('yflow')
   .description('i18n management CLI tool')
   .version('1.0.0')
 
@@ -69,7 +69,7 @@ const CONFIG_FILE = '.i18nrc.json'
 export function loadConfig(): Config {
   const configPath = findConfigFile()
   if (!configPath) {
-    throw new Error('Config file not found. Run "i18n-flow init" first.')
+    throw new Error('Config file not found. Run "yflow init" first.')
   }
   const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'))
   return validateConfig(config)
@@ -235,7 +235,7 @@ export const importCommand = new Command()
 ### sync 命令流程
 
 ```
-i18n-flow sync
+yflow sync
        │
        ▼
 加载配置文件 (.i18nrc.json)
@@ -256,7 +256,7 @@ i18n-flow sync
 ### import 命令流程
 
 ```
-i18n-flow import
+yflow import
        │
        ▼
 扫描 messagesDir 目录

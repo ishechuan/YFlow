@@ -77,7 +77,7 @@ const handleKeydown = (e: KeyboardEvent) => {
     <el-card class="login-card">
       <template #header>
         <div class="card-header">
-          <h2>i18n-flow 管理后台</h2>
+          <h2>yflow 管理后台</h2>
           <p class="subtitle">用户登录</p>
         </div>
       </template>

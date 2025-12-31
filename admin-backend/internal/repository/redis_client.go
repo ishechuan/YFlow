@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"i18n-flow/internal/config"
+	"yflow/internal/config"
 	"time"
 
 	"github.com/redis/go-redis/v9"

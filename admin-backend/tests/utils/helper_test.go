@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"i18n-flow/utils"
+	"yflow/utils"
 )
 
 func TestParseInt(t *testing.T) {

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"i18n-flow/internal/api/response"
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/dto"
+	"yflow/internal/api/response"
+	"yflow/internal/domain"
+	"yflow/internal/dto"
 	"net/http"
 	"strconv"
 

@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 
 	"gorm.io/gorm"
 )

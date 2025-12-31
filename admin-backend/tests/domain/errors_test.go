@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 func TestDomainErrors(t *testing.T) {

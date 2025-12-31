@@ -2,33 +2,18 @@ services:
   # 数据库服务
   db:
     image: mysql:8.0
-    container_name: i18n_flow_db
     restart: unless-stopped
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
-      MYSQL_DATABASE: ${DB_NAME:-i18n_flow}
-      MYSQL_USER: ${DB_USERNAME:-i18nflow}
-      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
-    ports:
-      - "3306:3306"
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME:-yflow}
+      MYSQL_USER: ${DB_USERNAME:-yflow}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
-    networks:
-      - i18n_flow_network
     healthcheck:
-      test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "localhost",
-          "-u",
-          "root",
-          "-p${DB_ROOT_PASSWORD:-rootpassword}",
-        ]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -38,7 +23,6 @@ services:
     build:
       context: ./admin-backend
       dockerfile: Dockerfile
-    container_name: i18n_flow_backend
     restart: unless-stopped
     depends_on:
       db:
@@ -46,65 +30,37 @@ services:
     env_file:
       - .env
     environment:
-      DB_USERNAME: ${DB_USERNAME:-i18nflow}
-      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_USERNAME: ${DB_USERNAME:-yflow}
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: ${DB_NAME:-i18n_flow}
-      JWT_SECRET: ${JWT_SECRET:-your_secure_jwt_secret}
+      DB_NAME: ${DB_NAME:-yflow}
+      JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION_HOURS: ${JWT_EXPIRATION_HOURS:-24}
-      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-your_secure_refresh_secret}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       JWT_REFRESH_EXPIRATION_HOURS: ${JWT_REFRESH_EXPIRATION_HOURS:-168}
-      CLI_API_KEY: ${CLI_API_KEY:-your_secure_api_key}
-    ports:
-      - "8080:8080"
-    networks:
-      - i18n_flow_network
+      CLI_API_KEY: ${CLI_API_KEY}
+      ENV: ${ENV:-production}
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   # 前端服务
   frontend:
     build:
       context: ./admin-frontend
       dockerfile: Dockerfile
-    container_name: i18n_flow_frontend
     restart: unless-stopped
     depends_on:
       - backend
     env_file:
       - .env
     environment:
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:8080}
+      - VITE_API_URL=${VITE_API_URL:-/api}
     ports:
-      - "80:80"
-    networks:
-      - i18n_flow_network
-
-  # 文档网站服务
-  docs:
-    build:
-      context: ./i18n-flow-docs
-      dockerfile: Dockerfile
-    container_name: i18n_flow_docs
-    restart: unless-stopped
-    depends_on:
-      - frontend
-    ports:
-      - "8000:80" # 文档网站端口映射到主机的 8000 端口
-    volumes:
-      - docs_nginx_logs:/var/log/nginx
-    networks:
-      - i18n_flow_network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
-networks:
-  i18n_flow_network:
-    driver: bridge
+      - "${FRONTEND_PORT:-8081}:8080"
 
 volumes:
   mysql_data:
-  docs_nginx_logs:

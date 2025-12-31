@@ -12,7 +12,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 // CreateTempDir 创建临时目录并在测试结束后删除

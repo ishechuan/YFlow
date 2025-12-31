@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"i18n-flow/internal/api/middleware"
+	"yflow/internal/api/middleware"
 
 	"github.com/gin-gonic/gin"
 )

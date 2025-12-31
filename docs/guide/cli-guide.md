@@ -1,6 +1,6 @@
 # CLI 使用指南
 
-学习如何使用 i18n-flow CLI 工具同步和管理翻译。
+学习如何使用 yflow CLI 工具同步和管理翻译。
 
 ## 安装 CLI
 
@@ -13,7 +13,7 @@ bun link
 验证安装：
 
 ```bash
-i18n-flow --help
+yflow --help
 ```
 
 ## 初始化配置
@@ -21,7 +21,7 @@ i18n-flow --help
 在项目根目录创建配置文件：
 
 ```bash
-i18n-flow init
+yflow init
 ```
 
 或者手动创建 `.i18nrc.json`：
@@ -76,7 +76,7 @@ i18n-flow init
 从后端同步翻译到本地：
 
 ```bash
-i18n-flow sync
+yflow sync
 ```
 
 选项：
@@ -88,16 +88,16 @@ i18n-flow sync
 
 ```bash
 # 同步翻译
-i18n-flow sync
+yflow sync
 
 # 查看同步差异（不实际写入）
-i18n-flow sync --dry-run
+yflow sync --dry-run
 
 # 强制覆盖本地文件
-i18n-flow sync --force
+yflow sync --force
 
 # 指定配置文件
-i18n-flow sync --config /path/to/.i18nrc.json
+yflow sync --config /path/to/.i18nrc.json
 ```
 
 同步后的文件结构：
@@ -114,7 +114,7 @@ src/locales/
 将本地翻译导入到后端：
 
 ```bash
-i18n-flow import
+yflow import
 ```
 
 工作流程：
@@ -130,10 +130,10 @@ i18n-flow import
 
 ```bash
 # 导入翻译
-i18n-flow import
+yflow import
 
 # 查看导入预览（不实际导入）
-i18n-flow import --dry-run
+yflow import --dry-run
 ```
 
 ### init - 初始化配置
@@ -141,7 +141,7 @@ i18n-flow import --dry-run
 创建示例配置文件：
 
 ```bash
-i18n-flow init
+yflow init
 ```
 
 ### help - 查看帮助
@@ -149,7 +149,7 @@ i18n-flow init
 查看所有可用命令和选项：
 
 ```bash
-i18n-flow --help
+yflow --help
 ```
 
 ### version - 查看版本
@@ -157,7 +157,7 @@ i18n-flow --help
 查看 CLI 版本：
 
 ```bash
-i18n-flow --version
+yflow --version
 ```
 
 ## 获取 API 密钥
@@ -183,12 +183,12 @@ i18n-flow --version
 当本地和远程有相同 key 但不同值时，默认跳过本地已有的键。如需强制覆盖：
 
 ```bash
-i18n-flow sync --force
+yflow sync --force
 ```
 
 ### 配置文件不存在
 
-运行 `i18n-flow init` 创建示例配置文件，或手动创建 `.i18nrc.json`。
+运行 `yflow init` 创建示例配置文件，或手动创建 `.i18nrc.json`。
 
 ### 模拟运行
 

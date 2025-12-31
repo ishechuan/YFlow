@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"i18n-flow/internal/api/response"
-	"i18n-flow/internal/domain"
+	"yflow/internal/api/response"
+	"yflow/internal/domain"
 
 	"github.com/gin-gonic/gin"
 )

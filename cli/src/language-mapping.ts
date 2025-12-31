@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI 语言映射处理模块
+ * yflow CLI 语言映射处理模块
  */
 
 import type { Translations } from "./types.js";

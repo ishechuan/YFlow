@@ -1,8 +1,8 @@
 package di
 
 import (
-	"i18n-flow/internal/api/handlers"
-	"i18n-flow/internal/api/routes"
+	"yflow/internal/api/handlers"
+	"yflow/internal/api/routes"
 
 	"go.uber.org/fx"
 )

@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "i18n-flow-cli",
+      "name": "yflow-cli",
       "dependencies": {
         "cli-progress": "^3.12.0",
       },

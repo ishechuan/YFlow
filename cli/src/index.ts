@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI 入口文件
+ * yflow CLI 入口文件
  */
 
 import { existsSync } from "fs";
@@ -7,14 +7,14 @@ import { runImport } from "./commands/import.js";
 import { runSync } from "./commands/sync.js";
 import { createSampleConfig, getDefaultConfigPath } from "./config.js";
 
-const PROGRAM_NAME = "i18n-flow";
+const PROGRAM_NAME = "yflow";
 
 /**
  * 显示帮助信息
  */
 function showHelp(): void {
   console.log(`
-${PROGRAM_NAME} - i18n-flow 国际化管理 CLI 工具
+${PROGRAM_NAME} - yflow 国际化管理 CLI 工具
 
 用法:
   ${PROGRAM_NAME} <命令> [选项]
@@ -187,7 +187,7 @@ async function main(): Promise<void> {
     console.error(`\n❌ 错误: ${error}`);
 
     if (error instanceof Error && error.message.includes("配置文件")) {
-      console.log("\n💡 提示: 运行 'i18n-flow init' 创建示例配置文件。");
+      console.log("\n💡 提示: 运行 'yflow init' 创建示例配置文件。");
     }
 
     process.exit(1);

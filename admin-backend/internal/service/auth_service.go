@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	"i18n-flow/internal/config"
-	"i18n-flow/internal/domain"
+	"yflow/internal/config"
+	"yflow/internal/domain"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -42,7 +42,7 @@ func (s *AuthService) GenerateToken(ctx context.Context, user *domain.User) (str
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
-			Issuer:    "i18n-flow-admin",
+			Issuer:    "yflow-admin",
 			Subject:   user.Username,
 		},
 	}
@@ -72,7 +72,7 @@ func (s *AuthService) GenerateRefreshToken(ctx context.Context, user *domain.Use
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
-			Issuer:    "i18n-flow-admin-refresh",
+			Issuer:    "yflow-admin-refresh",
 			Subject:   user.Username,
 		},
 	}

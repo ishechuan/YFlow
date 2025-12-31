@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/dto"
+	"yflow/internal/domain"
+	"yflow/internal/dto"
 )
 
 func TestLoginRequest(t *testing.T) {

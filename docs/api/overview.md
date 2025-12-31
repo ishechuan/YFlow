@@ -1,6 +1,6 @@
 # API 概述
 
-i18n-flow 提供 RESTful API 用于集成第三方应用和 CLI 工具。
+yflow 提供 RESTful API 用于集成第三方应用和 CLI 工具。
 
 ## 基础信息
 

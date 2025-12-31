@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"fmt"
-	"i18n-flow/internal/api/response"
+	"yflow/internal/api/response"
 	"net"
 	"time"
 

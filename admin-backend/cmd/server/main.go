@@ -1,11 +1,11 @@
 package main
 
 import (
-	_ "i18n-flow/docs" // 导入 swagger 文档（需要初始化 SwaggerInfo）
-	"i18n-flow/internal/api/middleware"
-	"i18n-flow/internal/config"
-	"i18n-flow/internal/container"
-	internal_utils "i18n-flow/internal/utils"
+	_ "yflow/docs" // 导入 swagger 文档（需要初始化 SwaggerInfo）
+	"yflow/internal/api/middleware"
+	"yflow/internal/config"
+	"yflow/internal/container"
+	internal_utils "yflow/internal/utils"
 	"log"
 	"time"
 
@@ -13,9 +13,9 @@ import (
 	"go.uber.org/zap"
 )
 
-// @title           i18n-flow API
+// @title           YFlow API
 // @version         1.0
-// @description     i18n-flow 是一个用于管理多语言翻译的系统。
+// @description     语流是一个用于管理多语言翻译的系统。
 // @termsOfService  http://swagger.io/terms/
 
 // @contact.name   API Support

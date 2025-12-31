@@ -1,6 +1,6 @@
-# i18n-flow 后端服务
+# yflow 后端服务
 
-i18n-flow 是一个完整的国际化管理平台的后端服务，提供 RESTful API 接口，支持多语言翻译管理、用户权限控制、项目管理等核心功能。
+yflow 是一个完整的国际化管理平台的后端服务，提供 RESTful API 接口，支持多语言翻译管理、用户权限控制、项目管理等核心功能。
 
 ## 技术栈
 
@@ -97,8 +97,8 @@ go run cmd/server/main.go
 ### 构建生产版本
 
 ```bash
-go build -o i18n-flow ./cmd/server
-./i18n-flow
+go build -o yflow ./cmd/server
+./yflow
 ```
 
 ### 运行测试
@@ -285,10 +285,10 @@ docker-compose logs -f
 
 ```bash
 # 构建镜像
-docker build -t i18n-flow-backend .
+docker build -t yflow-backend .
 
 # 运行容器
-docker run -p 8080:8080 i18n-flow-backend
+docker run -p 8080:8080 yflow-backend
 ```
 
 ## 默认凭证

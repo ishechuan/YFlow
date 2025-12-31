@@ -1,14 +1,14 @@
 {
-  "name": "@i18n-flow/cli",
+  "name": "@yflow/cli",
   "version": "1.0.0",
-  "description": "i18n-flow CLI tool for importing and syncing translations",
+  "description": "yflow CLI tool for importing and syncing translations",
   "type": "module",
   "bin": {
-    "i18n-flow": "./src/index.ts"
+    "yflow": "./src/index.ts"
   },
   "scripts": {
     "dev": "bun run ./src/index.ts",
-    "build": "bun build ./src/index.ts --outfile ./bin/i18n-flow"
+    "build": "bun build ./src/index.ts --outfile ./bin/yflow"
   },
   "dependencies": {
     "cli-progress": "^3.12.0"

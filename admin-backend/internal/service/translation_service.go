@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 	"strings"
 )
 

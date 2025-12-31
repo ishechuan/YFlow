@@ -1,6 +1,6 @@
 # Docker 部署
 
-使用 Docker 容器化部署 i18n-flow。
+使用 Docker 容器化部署 YFlow。
 
 ## 前置条件
 
@@ -9,9 +9,9 @@
 - MySQL 8.0 (外部或容器内)
 - Redis 7.0 (外部或容器内)
 
-## 使用 Docker Compose
+### 使用 Docker Compose
 
-### 1. 准备环境变量
+#### 1. 准备环境变量
 
 创建 `.env` 文件：
 
@@ -33,7 +33,7 @@ API_KEY=your_api_key
 VITE_API_URL=http://localhost:8080/api
 ```
 
-### 2. docker-compose.yml
+#### 2. docker-compose.yml
 
 ```yaml
 version: '3.8'
@@ -121,7 +121,7 @@ volumes:
   redis_data:
 ```
 
-### 3. 后端 Dockerfile
+#### 3. 后端 Dockerfile
 
 ```dockerfile
 # admin-backend/Dockerfile
@@ -149,7 +149,7 @@ EXPOSE 8080
 CMD ["./server"]
 ```
 
-### 4. 前端 Dockerfile
+#### 4. 前端 Dockerfile
 
 ```dockerfile
 # admin-frontend/Dockerfile
@@ -173,7 +173,7 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-### 5. Nginx 配置
+#### 5. Nginx 配置
 
 ```nginx
 # admin-frontend/nginx.conf
@@ -198,7 +198,7 @@ server {
 }
 ```
 
-### 6. 启动服务
+#### 6. 启动服务
 
 ```bash
 # 构建并启动所有服务
@@ -214,9 +214,9 @@ docker compose down
 docker compose down -v
 ```
 
-## 生产环境优化
+### 生产环境优化
 
-### 1. 健康检查
+#### 1. 健康检查
 
 ```yaml
 services:
@@ -229,7 +229,7 @@ services:
       start_period: 40s
 ```
 
-### 2. 资源限制
+#### 2. 资源限制
 
 ```yaml
 services:
@@ -244,7 +244,7 @@ services:
           memory: 512M
 ```
 
-### 3. 日志管理
+#### 3. 日志管理
 
 ```yaml
 services:
@@ -256,9 +256,9 @@ services:
         max-file: "5"
 ```
 
-## 验证部署
+### 验证部署
 
-### 检查服务状态
+#### 检查服务状态
 
 ```bash
 # 查看运行中的容器
@@ -268,7 +268,7 @@ docker compose ps
 docker inspect --format='{{.State.Health.Status}}' i18n-backend
 ```
 
-### 测试 API
+#### 测试 API
 
 ```bash
 # 登录 API
@@ -277,15 +277,15 @@ curl -X POST http://localhost:8080/api/login \
   -d '{"email":"admin@example.com","password":"password"}'
 ```
 
-## 数据备份
+### 数据备份
 
-### 备份 MySQL
+#### 备份 MySQL
 
 ```bash
 docker exec i18n-mysql mysqldump -u root -p i18n_flow > backup.sql
 ```
 
-### 备份 Redis
+#### 备份 Redis
 
 ```bash
 docker exec i18n-redis redis-cli BGSAVE

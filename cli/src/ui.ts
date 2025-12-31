@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI UI 工具模块
+ * yflow CLI UI 工具模块
  * 提供进度条、spinner 等 UI 组件
  */
 

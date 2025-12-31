@@ -1,6 +1,6 @@
 # 翻译管理最佳实践
 
-本文档提供在 i18n-flow 中高效管理翻译的最佳实践，涵盖项目组织、键命名、同步策略和团队协作等方面。
+本文档提供在 yflow 中高效管理翻译的最佳实践，涵盖项目组织、键命名、同步策略和团队协作等方面。
 
 ## 1. 项目组织结构
 
@@ -181,17 +181,17 @@ t('welcome_message', {
 
 ### 导入流程
 
-使用 `import` 命令将本地翻译导入到 i18n-flow 后端：
+使用 `import` 命令将本地翻译导入到 yflow 后端：
 
 ```bash
 # 标准导入
-i18n-flow import
+yflow import
 
 # 预览导入内容（不实际执行）
-i18n-flow import --dry-run
+yflow import --dry-run
 
 # 指定配置文件
-i18n-flow import --config .i18nrc.json
+yflow import --config .i18nrc.json
 ```
 
 导入流程说明：
@@ -209,43 +209,43 @@ i18n-flow import --config .i18nrc.json
 
 ```bash
 # 标准同步（保留本地修改）
-i18n-flow sync
+yflow sync
 
 # 预览同步差异
-i18n-flow sync --dry-run
+yflow sync --dry-run
 
 # 强制覆盖所有本地翻译
-i18n-flow sync --force
+yflow sync --force
 
 # 指定配置文件
-i18n-flow sync --config .i18nrc.json
+yflow sync --config .i18nrc.json
 ```
 
 ### 冲突解决策略
 
 | 场景 | 处理方式 | 命令 |
 |------|----------|------|
-| 本地新增 key | 推送到后端 | `i18n-flow import` |
-| 后端新增 key | 同步到本地 | `i18n-flow sync` |
-| 双方修改同一 key | 默认保留本地 | `i18n-flow sync` |
-| 需要覆盖本地 | 强制覆盖 | `i18n-flow sync --force` |
+| 本地新增 key | 推送到后端 | `yflow import` |
+| 后端新增 key | 同步到本地 | `yflow sync` |
+| 双方修改同一 key | 默认保留本地 | `yflow sync` |
+| 需要覆盖本地 | 强制覆盖 | `yflow sync --force` |
 
 ### 推荐的同步工作流
 
 ```bash
 # 1. 开始工作前同步最新翻译
-i18n-flow sync
+yflow sync
 
 # 2. 翻译工作...
 
 # 3. 预览更改
-i18n-flow import --dry-run
+yflow import --dry-run
 
 # 4. 确认无误后导入
-i18n-flow import
+yflow import
 
 # 5. 同步回本地确保一致
-i18n-flow sync
+yflow sync
 ```
 
 ### 环境变量覆盖
@@ -259,7 +259,7 @@ export I18N_API_KEY="${PRODUCTION_API_KEY}"
 export I18N_PROJECT_ID="123"
 
 # 运行同步
-i18n-flow sync
+yflow sync
 ```
 
 ## 5. 团队协作
@@ -393,7 +393,7 @@ i18n-flow sync
 
 ```bash
 # 查看冲突
-i18n-flow sync --dry-run
+yflow sync --dry-run
 
 # 解决方式
 # 1. 使用本地值（不执行同步）
@@ -407,7 +407,7 @@ i18n-flow sync --dry-run
 
 ```bash
 # 同步时查看缺失
-i18n-flow sync --dry-run
+yflow sync --dry-run
 
 # 常见原因
 # 1. 新增 key 未导入
@@ -421,7 +421,7 @@ JSON 格式验证：
 
 ```bash
 # 使用 CLI 检查
-i18n-flow import --dry-run
+yflow import --dry-run
 
 # 或手动验证
 node -e "JSON.parse(require('fs').readFileSync('en/common.json'))"

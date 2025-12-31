@@ -2,9 +2,9 @@ package repository
 
 import (
 	"fmt"
-	"i18n-flow/internal/config"
-	"i18n-flow/internal/domain"
-	internal_utils "i18n-flow/internal/utils"
+	"yflow/internal/config"
+	"yflow/internal/domain"
+	internal_utils "yflow/internal/utils"
 	"os"
 	"strings"
 	"time"
@@ -126,7 +126,7 @@ func createAdminUser(db *gorm.DB, zapLogger *zap.Logger) error {
 
 		admin := domain.User{
 			Username:  adminUsername,
-			Email:     "admin@i18n-flow.com", // 默认管理员邮箱
+			Email:     "admin@yflow.com", // 默认管理员邮箱
 			Password:  string(password),
 			Role:      "admin",
 			Status:    "active",
@@ -149,7 +149,7 @@ func createAdminUser(db *gorm.DB, zapLogger *zap.Logger) error {
 				needUpdate = true
 			}
 			if admin.Email == "" {
-				admin.Email = "admin@i18n-flow.com"
+				admin.Email = "admin@yflow.com"
 				needUpdate = true
 			}
 			if admin.Status == "" {

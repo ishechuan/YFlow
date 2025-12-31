@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/require"
 	"go.uber.org/zap"
 
-	"i18n-flow/internal/config"
-	"i18n-flow/utils"
+	"yflow/internal/config"
+	"yflow/utils"
 )
 
 func TestNewLoggerManager(t *testing.T) {

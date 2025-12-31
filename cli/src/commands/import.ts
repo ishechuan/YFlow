@@ -1,5 +1,5 @@
 /**
- * i18n-flow CLI import 命令
+ * yflow CLI import 命令
  * 将前端 messages 目录的翻译导入到后端数据库
  */
 

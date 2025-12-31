@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"fmt"
-	"i18n-flow/internal/api/response"
-	"i18n-flow/internal/domain"
+	"yflow/internal/api/response"
+	"yflow/internal/domain"
 	"runtime/debug"
 
 	"github.com/gin-gonic/gin"

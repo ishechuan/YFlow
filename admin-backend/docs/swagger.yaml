@@ -249,12 +249,12 @@ info:
     email: support@example.com
     name: API Support
     url: http://www.example.com/support
-  description: i18n-flow 是一个用于管理多语言翻译的系统。
+  description: 语流是一个用于管理多语言翻译的系统。
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
   termsOfService: http://swagger.io/terms/
-  title: i18n-flow API
+  title: YFlow API
   version: "1.0"
 paths:
   /cli/auth:

@@ -1,6 +1,6 @@
 # 快速开始
 
-本指南将帮助你快速搭建和运行 i18n-flow 项目。
+本指南将帮助你快速搭建和运行 yflow 项目。
 
 ## 环境要求
 
@@ -14,8 +14,8 @@
 ## 1. 克隆项目
 
 ```bash
-git clone https://github.com/your-repo/i18n-flow.git
-cd i18n-flow
+git clone https://github.com/your-repo/yflow.git
+cd yflow
 ```
 
 ## 2. 配置数据库
@@ -104,7 +104,7 @@ bun install
 bun link
 ```
 
-现在可以使用 `i18n-flow` 命令了。
+现在可以使用 `yflow` 命令了。
 
 ## 下一步
 

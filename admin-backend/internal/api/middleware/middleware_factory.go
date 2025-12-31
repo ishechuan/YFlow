@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 
 	"github.com/gin-gonic/gin"
 )

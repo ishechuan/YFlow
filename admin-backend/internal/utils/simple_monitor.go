@@ -220,7 +220,7 @@ func (m *SimpleMonitor) getRedisStatus(isHealthy bool) string {
 func (m *SimpleMonitor) getSystemInfo() gin.H {
 	return gin.H{
 		"go_version":   "go1.23",
-		"service_name": "i18n-flow-backend",
+		"service_name": "yflow-backend",
 		"environment":  getEnv("ENV", "development"),
 		"log_level":    getEnv("LOG_LEVEL", "info"),
 	}

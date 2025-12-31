@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 // CachedLanguageService 带缓存的语言服务实现

@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"i18n-flow/internal/domain"
+	"yflow/internal/domain"
 )
 
 // ProjectMemberService 项目成员服务实现

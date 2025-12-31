@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"i18n-flow/internal/domain"
-	"i18n-flow/internal/dto"
-	"i18n-flow/internal/service"
+	"yflow/internal/domain"
+	"yflow/internal/dto"
+	"yflow/internal/service"
 )
 
 // MockCacheService 模拟缓存服务

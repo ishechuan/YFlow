@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"fmt"
-	"i18n-flow/internal/api/response"
-	log_utils "i18n-flow/utils"
+	"yflow/internal/api/response"
+	log_utils "yflow/utils"
 	"regexp"
 	"strings"
 	"time"

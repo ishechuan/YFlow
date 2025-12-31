@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"bytes"
-	internal_utils "i18n-flow/internal/utils"
-	log_utils "i18n-flow/utils"
+	internal_utils "yflow/internal/utils"
+	log_utils "yflow/utils"
 	"io"
 	"time"
 
