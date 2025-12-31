@@ -11,6 +11,7 @@ export default defineConfig({
         items: [
           { text: '快速开始', link: '/guide/quick-start' },
           { text: '使用指南', link: '/guide/getting-started' },
+          { text: '最佳实践', link: '/guide/best-practices' },
           { text: 'CLI 使用', link: '/guide/cli-guide' },
           { text: '团队协作', link: '/guide/team-collaboration' }
         ]
@@ -32,6 +33,7 @@ export default defineConfig({
           items: [
             { text: '快速开始', link: '/guide/quick-start' },
             { text: '入门介绍', link: '/guide/getting-started' },
+            { text: '最佳实践', link: '/guide/best-practices' },
             { text: '项目管理', link: '/guide/project-guide' },
             { text: '翻译管理', link: '/guide/translation-guide' },
             { text: 'CLI 使用', link: '/guide/cli-guide' },

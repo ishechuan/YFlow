@@ -119,5 +119,6 @@ USER_LOGIN_TITLE
 
 ## 下一步
 
+- [翻译管理最佳实践 →](/guide/best-practices)
 - [使用 CLI 同步翻译 →](/guide/cli-guide)
 - [团队协作翻译 →](/guide/team-collaboration)
