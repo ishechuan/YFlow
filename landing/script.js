@@ -244,17 +244,11 @@ if ('serviceWorker' in navigator) {
 // Internationalization (i18n)
 // ============================================
 
-// Get saved language or detect browser preference
+// Get saved language or default to English
 function getDefaultLanguage() {
   const savedLang = localStorage.getItem('lang');
   if (savedLang && (savedLang === 'zh' || savedLang === 'en')) {
     return savedLang;
-  }
-
-  // Detect browser language preference
-  const browserLang = navigator.language || navigator.userLanguage;
-  if (browserLang && browserLang.startsWith('zh')) {
-    return 'zh';
   }
   return 'en';
 }
