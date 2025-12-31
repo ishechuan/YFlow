@@ -187,7 +187,7 @@ var translations = {
     docker_subtitle: "不需要懂 Docker，不需要配置环境。<br>一行命令，全部搞定。",
 
     step_1_clone: "Step 1: 克隆项目",
-    step_1_command: "git clone https://github.com/your-repo/yflow.git",
+    step_1_command: "git clone https://github.com/cerebralatlas/yflow.git",
 
     step_2_start: "Step 2: 一键启动",
     step_2_magic: "✨ 魔法时刻",
@@ -460,7 +460,7 @@ var translations = {
     docker_subtitle: "No Docker knowledge needed, no environment configuration.<br>One command, and you're ready.",
 
     step_1_clone: "Step 1: Clone repository",
-    step_1_command: "git clone https://github.com/your-repo/yflow.git",
+    step_1_command: "git clone https://github.com/cerebralatlas/yflow.git",
 
     step_2_start: "Step 2: Start services",
     step_2_magic: "✨ Magic moment",
