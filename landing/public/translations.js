@@ -203,6 +203,7 @@ var translations = {
     service_backend: "Go Backend",
     service_frontend: "Vue Frontend",
     service_docs: "VitePress Docs",
+    service_translation: "LibreTranslate",
 
     // Roadmap
     section_label_roadmap: "产品路线图",
@@ -216,7 +217,8 @@ var translations = {
       "✓ 管理后台 (Vue 3 + Element Plus)",
       "✓ CLI 工具 (Bun + TypeScript)",
       "✓ Docker 部署支持",
-      "✓ 基础翻译管理"
+      "✓ 基础翻译管理",
+      "✓ 机器翻译 (LibreTranslate)"
     ],
 
     timeline_q1: "Q1 2025",
@@ -232,7 +234,6 @@ var translations = {
     timeline_v12_title: "v1.2 协作增强",
     timeline_v12_items: [
       "🔜 翻译审核工作流",
-      "🔜 机器翻译集成 (Google/DeepL)",
       "🔜 翻译记忆库",
       "🔜 团队活动日志"
     ],
@@ -249,7 +250,6 @@ var translations = {
     timeline_v11_i3: "🔄 CSV 批量导入导出",
     timeline_v11_i4: "🔄 嵌套 key 扁平化优化",
     timeline_v12_i1: "🔜 翻译审核工作流",
-    timeline_v12_i2: "🔜 机器翻译集成 (Google/DeepL)",
     timeline_v12_i3: "🔜 翻译记忆库",
     timeline_v12_i4: "🔜 团队活动日志",
     timeline_v20_i1: "🔜 Webhook 集成",
@@ -476,6 +476,7 @@ var translations = {
     service_backend: "Go Backend",
     service_frontend: "Vue Frontend",
     service_docs: "VitePress Docs",
+    service_translation: "LibreTranslate",
 
     // Roadmap
     section_label_roadmap: "Product Roadmap",
@@ -489,7 +490,8 @@ var translations = {
       "✓ Admin dashboard (Vue 3 + Element Plus)",
       "✓ CLI tool (Bun + TypeScript)",
       "✓ Docker deployment support",
-      "✓ Basic translation management"
+      "✓ Basic translation management",
+      "✓ Machine Translation (LibreTranslate)"
     ],
 
     timeline_q1: "Q1 2025",
@@ -505,7 +507,6 @@ var translations = {
     timeline_v12_title: "v1.2 Collaboration Enhancements",
     timeline_v12_items: [
       "🔜 Translation review workflow",
-      "🔜 Machine translation (Google/DeepL)",
       "🔜 Translation memory",
       "🔜 Team activity logs"
     ],
@@ -522,7 +523,6 @@ var translations = {
     timeline_v11_i3: "🔄 CSV import/export",
     timeline_v11_i4: "🔄 Nested key flattening",
     timeline_v12_i1: "🔜 Translation review workflow",
-    timeline_v12_i2: "🔜 Machine translation (Google/DeepL)",
     timeline_v12_i3: "🔜 Translation memory",
     timeline_v12_i4: "🔜 Team activity logs",
     timeline_v20_i1: "🔜 Webhook integration",
@@ -639,6 +639,7 @@ if (typeof window !== 'undefined') {
   '[data-i18n="step_2_note"]': 'step_2_note',
   '[data-i18n="step_3_use"]': 'step_3_use',
   '[data-i18n="services_title"]': 'services_title',
+  '[data-i18n="service_translation"]': 'service_translation',
 
   // Roadmap
   '[data-i18n="section_label_roadmap"]': 'section_label_roadmap',
