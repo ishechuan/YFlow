@@ -36,6 +36,7 @@ export default defineConfig({
             { text: '最佳实践', link: '/guide/best-practices' },
             { text: '项目管理', link: '/guide/project-guide' },
             { text: '翻译管理', link: '/guide/translation-guide' },
+            { text: '机器翻译', link: '/guide/machine-translation' },
             { text: 'CLI 使用', link: '/guide/cli-guide' },
             { text: '团队协作', link: '/guide/team-collaboration' }
           ]

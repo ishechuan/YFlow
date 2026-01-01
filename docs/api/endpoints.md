@@ -297,6 +297,84 @@ GET /api/languages
 }
 ```
 
+## 机器翻译端点
+
+### 自动填充语言翻译
+
+自动填充项目中缺失的目标语言翻译。
+
+```http
+POST /api/projects/:project_id/auto-fill-language
+```
+
+**请求体**：
+
+```json
+{
+  "source_lang": "en",
+  "target_lang": "zh-CN"
+}
+```
+
+| 参数 | 类型 | 必填 | 描述 |
+|-----|------|-----|------|
+| source_lang | string | 否 | 源语言代码，如不提供则使用项目默认语言 |
+| target_lang | string | 是 | 目标语言代码 |
+
+**响应**：
+
+```json
+{
+  "total": 50,
+  "success_count": 48,
+  "failed_count": 2,
+  "message": "Successfully translated 48 missing translations"
+}
+```
+
+### 获取支持的语言列表
+
+获取机器翻译服务支持的语言列表。
+
+```http
+GET /api/translations/machine-translate/languages
+```
+
+**响应**：
+
+```json
+[
+  {
+    "code": "en",
+    "name": "English"
+  },
+  {
+    "code": "zh",
+    "name": "Chinese"
+  },
+  {
+    "code": "ja",
+    "name": "Japanese"
+  }
+]
+```
+
+### 检查服务健康状态
+
+检查机器翻译服务是否可用。
+
+```http
+GET /api/translations/machine-translate/health
+```
+
+**响应**：
+
+```json
+{
+  "available": true
+}
+```
+
 ## 错误码参考
 
 | 错误码 | 描述 |
