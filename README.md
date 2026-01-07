@@ -4,6 +4,8 @@
 [![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D)](https://vuejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
+[简体中文](./README.zh-CN.md) | English
+
 YFlow is a full-stack internationalization management platform designed for modern development teams. It provides a complete solution for managing translations, languages, and localization workflows across your applications.
 
 ## What is YFlow?

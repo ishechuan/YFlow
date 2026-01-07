@@ -4,6 +4,8 @@
 [![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D)](https://vuejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
+简体中文 | [English](./README.md)
+
 语流（YFlow）是一个专为现代开发团队设计的全栈国际化管理平台，提供完整的翻译管理、多语言工作流和自动化同步解决方案。
 
 ## 什么是语流？
