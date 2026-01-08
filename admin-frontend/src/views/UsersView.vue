@@ -1,112 +1,140 @@
 <template>
-  <div class="users-view">
-    <el-card class="box-card" shadow="hover">
-      <template #header>
-        <div class="card-header">
-          <h1 class="page-title">用户管理</h1>
-          <div class="header-actions">
-            <el-input
-              v-model="searchKeyword"
-              placeholder="搜索用户名或邮箱"
-              prefix-icon="Search"
-              clearable
-              style="width: 240px"
-              @keyup.enter="handleSearch"
-              @clear="handleSearch"
-            />
-            <el-button type="primary" icon="Plus" @click="openAddDialog" style="margin-left: 12px">
-              添加用户
-            </el-button>
-          </div>
-        </div>
-      </template>
-
-      <el-table
-        v-loading="loading"
-        :data="users"
-        style="width: 100%"
-        border
-        stripe
-      >
-        <el-table-column prop="id" label="ID" width="80" align="center" />
-        <el-table-column prop="username" label="用户名" min-width="120" />
-        <el-table-column prop="email" label="邮箱" min-width="180" />
-        <el-table-column prop="role" label="角色" width="100" align="center">
-          <template #default="{ row }">
-            <el-tag :type="getRoleTagType(row.role)">
-              {{ getRoleDisplayName(row.role) }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="status" label="状态" width="100" align="center">
-          <template #default="{ row }">
-            <el-tag :type="row.status === 'active' ? 'success' : 'danger'">
-              {{ row.status === 'active' ? '启用' : '禁用' }}
-            </el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column prop="created_at" label="创建时间" width="180">
-          <template #default="{ row }">
-            {{ formatDate(row.created_at) }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="260" align="center" fixed="right">
-          <template #default="{ row }">
-            <div class="action-buttons">
-              <el-button
-                type="primary"
-                link
-                size="small"
-                @click="openEditDialog(row)"
-              >
-                编辑
-              </el-button>
-              <el-button
-                type="warning"
-                link
-                size="small"
-                @click="openResetPasswordDialog(row)"
-              >
-                重置密码
-              </el-button>
-              <el-button
-                type="danger"
-                link
-                size="small"
-                @click="handleDelete(row)"
-              >
-                删除
-              </el-button>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <div class="pagination-container">
-        <el-pagination
-          v-model:current-page="currentPage"
-          v-model:page-size="pageSize"
-          :page-sizes="[10, 20, 50, 100]"
-          :total="total"
-          layout="total, sizes, prev, pager, next, jumper"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-        />
+  <div class="users-page">
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="header-content">
+        <h1 class="page-title">用户管理</h1>
+        <p class="page-subtitle">管理系统用户和权限</p>
       </div>
-    </el-card>
+      <button class="create-button" @click="openAddDialog">
+        <el-icon><Plus /></el-icon>
+        <span>添加用户</span>
+      </button>
+    </div>
+
+    <!-- 搜索和操作栏 -->
+    <div class="search-card">
+      <div class="search-bar">
+        <div class="search-input-group">
+          <el-input
+            v-model="searchKeyword"
+            placeholder="搜索用户名或邮箱"
+            :prefix-icon="Search"
+            clearable
+            class="search-input"
+            @clear="handleSearch"
+            @keyup.enter="handleSearch"
+          />
+          <button class="search-button" @click="handleSearch">
+            <el-icon><Search /></el-icon>
+            <span>搜索</span>
+          </button>
+        </div>
+        <button class="refresh-button" @click="fetchUsers">
+          <el-icon><Refresh /></el-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- 用户列表 -->
+    <div class="table-card">
+      <!-- 加载中状态 -->
+      <div v-if="loading" class="loading-container">
+        <el-skeleton :rows="5" animated />
+      </div>
+
+      <!-- 数据表格 -->
+      <div v-else class="table-container">
+        <el-table
+          :data="users"
+          style="width: 100%"
+          class="users-table"
+          :empty-text="searchKeyword ? '没有找到匹配的用户' : '暂无用户数据'"
+        >
+          <el-table-column prop="id" label="ID" width="80" align="center" />
+          <el-table-column prop="username" label="用户名" min-width="140">
+            <template #default="{ row }">
+              <div class="username-cell">
+                <strong class="username-text">{{ row.username }}</strong>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="email" label="邮箱" min-width="200">
+            <template #default="{ row }">
+              <span class="email-text">{{ row.email }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="role" label="角色" width="110" align="center">
+            <template #default="{ row }">
+              <div :class="['role-badge', `role-${row.role}`]">
+                {{ getRoleDisplayName(row.role) }}
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="status" label="状态" width="100" align="center">
+            <template #default="{ row }">
+              <span
+                :class="['status-badge', row.status === 'active' ? 'status-active' : 'status-inactive']"
+              >
+                {{ row.status === 'active' ? '启用' : '禁用' }}
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="created_at" label="创建时间" width="170">
+            <template #default="{ row }">
+              <span class="date-text">{{ formatDate(row.created_at) }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="260" fixed="right" align="center">
+            <template #default="{ row }">
+              <div class="action-buttons">
+                <button class="action-button action-edit" @click="openEditDialog(row)">
+                  <el-icon><Edit /></el-icon>
+                  <span>编辑</span>
+                </button>
+                <button class="action-button action-reset" @click="openResetPasswordDialog(row)">
+                  <el-icon><RefreshRight /></el-icon>
+                  <span>重置</span>
+                </button>
+                <button class="action-button action-delete" @click="handleDelete(row)">
+                  <el-icon><Delete /></el-icon>
+                  <span>删除</span>
+                </button>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <!-- 分页 -->
+        <div class="pagination-container">
+          <el-pagination
+            v-model:current-page="currentPage"
+            v-model:page-size="pageSize"
+            :page-sizes="[10, 20, 50, 100]"
+            :total="total"
+            layout="total, sizes, prev, pager, next, jumper"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+        </div>
+      </div>
+    </div>
 
     <!-- 创建/编辑用户对话框 -->
     <el-dialog
       v-model="dialogVisible"
       :title="isEdit ? '编辑用户' : '添加用户'"
       width="500px"
+      :close-on-click-modal="false"
+      class="user-dialog"
       @closed="resetForm"
     >
       <el-form
         ref="formRef"
         :model="formData"
         :rules="rules"
-        label-width="100px"
+        label-width="80px"
+        class="user-form"
       >
         <el-form-item label="用户名" prop="username">
           <el-input v-model="formData.username" placeholder="请输入用户名" :disabled="isEdit" />
@@ -137,12 +165,10 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleSubmit" :loading="submitting">
-            确定
-          </el-button>
-        </span>
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleSubmit" :loading="submitting">
+          {{ isEdit ? '更新' : '创建' }}
+        </el-button>
       </template>
     </el-dialog>
 
@@ -151,12 +177,14 @@
       v-model="passwordDialogVisible"
       title="重置密码"
       width="400px"
+      class="password-dialog"
     >
       <el-form
         ref="passwordFormRef"
         :model="passwordFormData"
         :rules="passwordRules"
         label-width="100px"
+        class="password-form"
       >
         <el-form-item label="用户">
           <span>{{ editingUser?.username }}</span>
@@ -179,12 +207,10 @@
         </el-form-item>
       </el-form>
       <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="passwordDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleResetPassword" :loading="resettingPassword">
-            确定
-          </el-button>
-        </span>
+        <el-button @click="passwordDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleResetPassword" :loading="resettingPassword">
+          确定
+        </el-button>
       </template>
     </el-dialog>
   </div>
@@ -193,6 +219,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { Plus, Edit, Delete, Search, Refresh, RefreshRight } from '@element-plus/icons-vue'
 import { getUsers, createUser, updateUser, deleteUser, resetUserPassword } from '@/services/user'
 import type { User, UpdateUserRequest } from '@/types/api'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -336,15 +363,6 @@ const getRoleDisplayName = (role: string) => {
   return roleMap[role] || role
 }
 
-const getRoleTagType = (role: string) => {
-  const typeMap: Record<string, string> = {
-    admin: 'danger',
-    member: 'primary',
-    viewer: 'info',
-  }
-  return typeMap[role] || 'info'
-}
-
 const resetForm = () => {
   if (formRef.value) {
     formRef.value.resetFields()
@@ -461,46 +479,449 @@ const handleDelete = (row: User) => {
 </script>
 
 <style scoped>
-.users-view {
-  background-color: #f3f4f6;
+.users-page {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.box-card {
-  border-radius: 8px;
-  border: none;
-}
-
-.card-header {
+/* 页面头部 */
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
+  margin-bottom: 24px;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
+.header-content {
+  flex: 1;
 }
 
 .page-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1f2937;
   margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
 }
 
-.pagination-container {
+.page-subtitle {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.create-button {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 20px;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
 }
 
+.create-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(6, 182, 212, 0.4);
+}
+
+.create-button:active {
+  transform: translateY(0);
+}
+
+/* 搜索卡片 */
+.search-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.search-input-group {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  max-width: 600px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+:deep(.search-input .el-input__wrapper) {
+  border-radius: 10px;
+  padding: 8px 16px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.search-input .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.search-input .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  opacity: 0.9;
+}
+
+.refresh-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* 表格卡片 */
+.table-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
+}
+
+.loading-container {
+  padding: 40px;
+}
+
+.table-container {
+  padding: 4px;
+}
+
+/* 表格样式 */
+:deep(.users-table) {
+  border: none;
+}
+
+:deep(.users-table .el-table__header-wrapper) {
+  background: #f8fafc;
+}
+
+:deep(.users-table th.el-table__cell) {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 12px;
+}
+
+:deep(.users-table td.el-table__cell) {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 16px 12px;
+}
+
+:deep(.users-table tr:hover > td) {
+  background: #f8fafc;
+}
+
+:deep(.users-table .el-table__empty-block) {
+  padding: 40px 0;
+}
+
+/* 用户名和邮箱 */
+.username-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.email-text {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* 角色徽章 */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-admin {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #e11d48;
+}
+
+.role-member {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #2563eb;
+}
+
+.role-viewer {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #64748b;
+}
+
+/* 状态标签 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-active {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #059669;
+}
+
+.status-inactive {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #64748b;
+}
+
+.date-text {
+  font-size: 14px;
+  color: #64748b;
+  font-family: 'Fira Code', monospace;
+}
+
+/* 操作按钮 */
 .action-buttons {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  flex-wrap: nowrap;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.action-edit {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #2563eb;
+}
+
+.action-edit:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  transform: translateY(-1px);
+}
+
+.action-reset {
+  background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 100%);
+  color: #d97706;
+}
+
+.action-reset:hover {
+  background: linear-gradient(135deg, #fed7aa 0%, #fdba74 100%);
+  transform: translateY(-1px);
+}
+
+.action-delete {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #e11d48;
+}
+
+.action-delete:hover {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  transform: translateY(-1px);
+}
+
+/* 分页 */
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+:deep(.el-pagination) {
+  font-weight: 500;
+}
+
+:deep(.el-pagination .el-pager li) {
+  border-radius: 8px;
+  margin: 0 2px;
+}
+
+:deep(.el-pagination .el-pager li.is-active) {
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+}
+
+:deep(.el-pagination button) {
+  border-radius: 8px;
+}
+
+/* 对话框样式 */
+:deep(.user-dialog .el-dialog),
+:deep(.password-dialog .el-dialog) {
+  border-radius: 16px;
+}
+
+:deep(.user-dialog .el-dialog__header),
+:deep(.password-dialog .el-dialog__header) {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+:deep(.user-dialog .el-dialog__title),
+:deep(.password-dialog .el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+:deep(.user-dialog .el-dialog__body),
+:deep(.password-dialog .el-dialog__body) {
+  padding: 24px;
+}
+
+:deep(.user-dialog .el-dialog__footer),
+:deep(.password-dialog .el-dialog__footer) {
+  padding: 16px 24px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* 表单样式 */
+:deep(.user-form .el-form-item__label),
+:deep(.password-form .el-form-item__label) {
+  font-weight: 600;
+  color: #475569;
+}
+
+:deep(.user-form .el-input__wrapper),
+:deep(.password-form .el-input__wrapper) {
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.user-form .el-input__wrapper:hover),
+:deep(.password-form .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.user-form .el-input__wrapper.is-focus),
+:deep(.password-form .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+:deep(.user-form .el-select .el-input__wrapper),
+:deep(.password-form .el-select .el-input__wrapper) {
+  cursor: pointer;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .create-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input-group {
+    max-width: 100%;
+  }
+
+  .search-button {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .pagination-container {
+    justify-content: center;
+  }
+
+  :deep(.el-pagination) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  :deep(.users-table) {
+    font-size: 13px;
+  }
+
+  .action-button span {
+    display: none;
+  }
 }
 </style>

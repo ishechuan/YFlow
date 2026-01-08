@@ -1,41 +1,40 @@
 <template>
-  <div class="translations-view">
-    <el-card class="box-card" shadow="hover">
-      <template #header>
-        <div class="card-header">
-          <h1 class="page-title">翻译管理</h1>
-          <div class="header-actions">
-            <!-- Project Selector -->
-            <el-select
-              v-model="selectedProjectId"
-              placeholder="选择项目"
-              filterable
-              @change="handleProjectChange"
-              class="project-selector"
-              size="large"
-            >
-              <el-option
-                v-for="project in projects"
-                :key="project.id"
-                :label="project.name"
-                :value="project.id"
-              />
-            </el-select>
-          </div>
-        </div>
-      </template>
+  <div class="translations-page">
+    <!-- 页面头部 -->
+    <div class="page-header">
+      <div class="header-content">
+        <h1 class="page-title">翻译管理</h1>
+        <p class="page-subtitle">管理所有项目的翻译内容</p>
+      </div>
+      <el-select
+        v-model="selectedProjectId"
+        placeholder="选择项目"
+        filterable
+        @change="handleProjectChange"
+        class="project-selector"
+        size="large"
+      >
+        <el-option
+          v-for="project in projects"
+          :key="project.id"
+          :label="project.name"
+          :value="project.id"
+        />
+      </el-select>
+    </div>
 
-      <div v-if="selectedProjectId" class="content-wrapper">
-        <!-- Toolbar -->
+    <div v-if="selectedProjectId" class="content-wrapper">
+      <!-- 工具栏 -->
+      <div class="toolbar-card">
         <div class="toolbar">
-          <div class="search-box">
+          <div class="search-input-group">
             <el-input
               v-model="searchKeyword"
-              @input="handleSearch"
               placeholder="搜索翻译键..."
               clearable
               prefix-icon="Search"
               class="search-input"
+              @input="handleSearch"
             />
           </div>
           <div class="toolbar-actions">
@@ -53,32 +52,32 @@
             </el-button>
           </div>
         </div>
+      </div>
 
-        <!-- Translation Matrix Table -->
+      <!-- 翻译表格 -->
+      <div class="table-card">
         <el-table
           v-loading="loading"
           :data="matrix?.rows || []"
           style="width: 100%"
-          border
-          stripe
-          height="calc(100vh - 350px)"
           class="translation-table"
+          :empty-text="'暂无翻译数据'"
         >
-          <!-- Key Column -->
+          <!-- 翻译键列 -->
           <el-table-column prop="key_name" label="翻译键" fixed width="220" show-overflow-tooltip>
             <template #default="{ row }">
               <span class="key-text">{{ row.key_name }}</span>
             </template>
           </el-table-column>
 
-          <!-- Context Column -->
+          <!-- 上下文列 -->
           <el-table-column prop="context" label="上下文" width="180" show-overflow-tooltip>
             <template #default="{ row }">
               <span class="context-text">{{ row.context || '-' }}</span>
             </template>
           </el-table-column>
 
-          <!-- Dynamic Language Columns -->
+          <!-- 动态语言列 -->
           <el-table-column
             v-for="lang in matrix?.languages || []"
             :key="lang.id"
@@ -87,7 +86,7 @@
           >
             <template #header>
               <div class="column-header">
-                {{ lang.name }} <el-tag size="small" type="info" class="lang-tag">{{ lang.code }}</el-tag>
+                {{ lang.name }} <el-tag size="small" class="lang-tag">{{ lang.code }}</el-tag>
               </div>
             </template>
             <template #default="{ row }">
@@ -96,7 +95,7 @@
                 @click="editCell(row.key_name, lang)"
                 :class="{ 'is-empty': !row.translations[lang.code]?.value }"
               >
-                <!-- Editing Mode -->
+                <!-- 编辑模式 -->
                 <div
                   v-if="editingCell?.keyName === row.key_name && editingCell?.languageId === lang.id"
                   class="cell-editing"
@@ -113,7 +112,7 @@
                     placeholder="输入翻译..."
                   />
                 </div>
-                <!-- Display Mode -->
+                <!-- 显示模式 -->
                 <div v-else class="cell-display">
                   <span v-if="row.translations[lang.code]?.value" class="cell-value">
                     {{ row.translations[lang.code].value }}
@@ -127,23 +126,19 @@
             </template>
           </el-table-column>
 
-          <!-- Actions Column -->
-          <el-table-column label="操作" width="80" fixed="right" align="center">
+          <!-- 操作列 -->
+          <el-table-column label="操作" width="200" fixed="right" align="center">
             <template #default="{ row }">
-              <el-button
-                type="danger"
-                circle
-                size="small"
-                icon="Delete"
-                @click="handleDeleteKey(row.key_name)"
-                title="删除翻译键"
-              />
+              <button class="action-button action-delete" @click="handleDeleteKey(row.key_name)">
+                <el-icon><Delete /></el-icon>
+                <span>删除</span>
+              </button>
             </template>
           </el-table-column>
         </el-table>
 
-        <!-- Pagination -->
-        <div class="pagination-wrapper" v-if="matrix && matrix.total_count > 0">
+        <!-- 分页 -->
+        <div class="pagination-container" v-if="matrix && matrix.total_count > 0">
           <el-pagination
             v-model:current-page="currentPage"
             v-model:page-size="pageSize"
@@ -152,25 +147,30 @@
             :total="matrix.total_count"
             @size-change="loadMatrix"
             @current-change="loadMatrix"
-            background
           />
         </div>
       </div>
+    </div>
 
-      <el-empty v-else description="请选择一个项目以管理翻译" class="empty-state">
-        <el-icon :size="60" class="empty-icon"><FolderOpened /></el-icon>
-      </el-empty>
-    </el-card>
+    <!-- 空状态 -->
+    <div v-else class="empty-card">
+      <div class="empty-state">
+        <el-icon :size="64" class="empty-icon"><FolderOpened /></el-icon>
+        <h3 class="empty-title">请选择一个项目</h3>
+        <p class="empty-description">选择项目后即可开始管理翻译内容</p>
+      </div>
+    </div>
 
-    <!-- Add Key Dialog -->
+    <!-- 添加翻译键对话框 -->
     <el-dialog
       v-model="showAddKeyDialog"
       title="添加翻译键"
       width="600px"
       :close-on-click-modal="false"
       destroy-on-close
+      class="translation-dialog"
     >
-      <el-form :model="newKey" label-width="100px" @submit.prevent="handleAddKey">
+      <el-form :model="newKey" label-width="100px" @submit.prevent="handleAddKey" class="translation-form">
         <el-form-item label="翻译键名" required>
           <el-input v-model="newKey.keyName" placeholder="例如: welcome.message" />
         </el-form-item>
@@ -205,11 +205,12 @@
       </template>
     </el-dialog>
 
-    <!-- Import Dialog -->
+    <!-- 导入对话框 -->
     <el-dialog
       v-model="showImportDialog"
       title="导入翻译"
       width="500px"
+      class="import-dialog"
     >
       <div class="import-wrapper">
         <p class="import-tip">请选择标准 JSON 格式的翻译文件</p>
@@ -239,7 +240,7 @@
       </template>
     </el-dialog>
 
-    <!-- Machine Translation Dialog -->
+    <!-- 机器翻译对话框 -->
     <MachineTranslationDialog
       v-model="showMachineTranslationDialog"
       :project-id="selectedProjectId || 0"
@@ -344,14 +345,11 @@ const loadMatrix = async () => {
       }
     }) as any
 
-    console.log('Translation matrix API response:', response)
-
     // Extract data and meta from response
     const matrixData = response.data || {}
     const meta = response.meta || {}
 
     // Transform backend map structure to TranslationMatrix
-    // Backend returns: { "key1": { "en": "value1", "zh": "value2" }, ...}
     const rows: any[] = []
 
     for (const [keyName, translations] of Object.entries(matrixData)) {
@@ -362,8 +360,6 @@ const loadMatrix = async () => {
         for (const [langCode, cellData] of Object.entries(translations as Record<string, any>)) {
           const lang = languages.find(l => l.code === langCode)
           if (lang) {
-            // Backend now returns object {id: number, value: string}
-            // Add backwards compatibility check just in case
             const value = typeof cellData === 'object' ? cellData.value : cellData
             const id = typeof cellData === 'object' ? cellData.id : undefined
 
@@ -378,7 +374,7 @@ const loadMatrix = async () => {
 
         rows.push({
           key_name: keyName,
-          context: '', // Backend doesn't return context in matrix view
+          context: '',
           translations: translationCells
         })
       }
@@ -392,8 +388,6 @@ const loadMatrix = async () => {
       page_size: meta.page_size || pageSize.value,
       total_pages: meta.total_pages || 1
     }
-
-    console.log('Transformed matrix:', matrix.value)
 
   } catch (err: any) {
     error.value = err.message || '加载翻译数据失败'
@@ -505,8 +499,7 @@ const saveCell = async () => {
     if (err !== 'cancel') {
         ElMessage.error('保存失败: ' + (err.message || '未知错误'))
     } else {
-        // User cancelled, revert value (reload matrix is overkill but safest)
-        // Or just re-display original value
+        // User cancelled, revert value
     }
   } finally {
     isSaving.value = false
@@ -549,7 +542,6 @@ const handleAddKey = async () => {
 
 // Delete translation key
 const handleDeleteKey = async (keyName: string) => {
-  // Confirmation moved inside try-catch block for ElMessageBox
   if (!selectedProjectId.value) return
 
   try {
@@ -644,72 +636,175 @@ const handleImport = async () => {
 </script>
 
 <style scoped>
-.translations-view {
-  background-color: #f3f4f6;
+.translations-page {
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.box-card {
-  border-radius: 8px;
-  border: none;
-}
-
-.card-header {
+/* 页面头部 */
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
+  gap: 20px;
+}
+
+.header-content {
+  flex: 1;
 }
 
 .page-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1f2937;
   margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+}
+
+.page-subtitle {
+  margin: 8px 0 0;
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .project-selector {
   width: 240px;
 }
 
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+:deep(.project-selector .el-input__wrapper) {
+  border-radius: 12px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.project-selector .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.project-selector .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+/* 工具栏卡片 */
+.toolbar-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
 }
 
 .toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.search-box {
+.search-input-group {
+  display: flex;
+  gap: 12px;
   flex: 1;
-  max-width: 400px;
+  max-width: 600px;
+  min-width: 280px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+:deep(.search-input .el-input__wrapper) {
+  border-radius: 10px;
+  padding: 8px 16px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.search-input .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.search-input .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
 }
 
 .toolbar-actions {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.translation-table {
-  width: 100%;
+/* 表格卡片 */
+.table-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
 }
 
+/* 表格样式 */
+:deep(.translation-table) {
+  border: none;
+}
+
+:deep(.translation-table .el-table__header-wrapper) {
+  background: #f8fafc;
+}
+
+:deep(.translation-table th.el-table__cell) {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 12px;
+}
+
+:deep(.translation-table td.el-table__cell) {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 16px 12px;
+}
+
+:deep(.translation-table tr:hover > td) {
+  background: #f8fafc;
+}
+
+:deep(.translation-table .el-table__empty-block) {
+  padding: 40px 0;
+}
+
+/* 翻译键样式 */
 .key-text {
   font-weight: 600;
-  color: #1f2937;
+  color: #0f172a;
+  font-family: 'Fira Code', monospace;
 }
 
 .context-text {
-  color: #6b7280;
+  color: #64748b;
   font-style: italic;
 }
 
 .lang-tag {
   margin-left: 8px;
-  font-weight: normal;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #059669;
+  border: none;
+  font-weight: 600;
 }
 
 .column-header {
@@ -717,26 +812,27 @@ const handleImport = async () => {
   align-items: center;
 }
 
+/* 单元格样式 */
 .cell-wrapper {
   padding: 8px 4px;
   min-height: 48px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 8px;
   transition: background-color 0.2s;
   display: flex;
   align-items: center;
 }
 
 .cell-wrapper:hover {
-  background-color: #f9fafb;
+  background-color: #f8fafc;
 }
 
 .cell-wrapper.is-empty {
-  background-color: #fff1f2;
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
 }
 
 .cell-wrapper.is-empty:hover {
-    background-color: #ffe4e6;
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
 }
 
 .cell-editing {
@@ -748,99 +844,259 @@ const handleImport = async () => {
 }
 
 .cell-value {
-    color: #374151;
-    white-space: pre-wrap;
-    word-break: break-word;
+  color: #0f172a;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .cell-placeholder {
-  color: #9ca3af;
+  color: #94a3b8;
   font-style: italic;
-  font-size: 0.875rem;
+  font-size: 13px;
 }
 
 .cell-time {
-  color: #9ca3af;
-  font-size: 0.75rem;
+  color: #94a3b8;
+  font-size: 11px;
   margin-top: 4px;
 }
 
-.pagination-wrapper {
+/* 操作按钮 */
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.action-delete {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #e11d48;
+}
+
+.action-delete:hover {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  transform: translateY(-1px);
+}
+
+/* 分页 */
+.pagination-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 1.5rem;
+  padding: 20px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+:deep(.el-pagination) {
+  font-weight: 500;
+}
+
+:deep(.el-pagination .el-pager li) {
+  border-radius: 8px;
+  margin: 0 2px;
+}
+
+:deep(.el-pagination .el-pager li.is-active) {
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+}
+
+:deep(.el-pagination button) {
+  border-radius: 8px;
+}
+
+/* 空状态 */
+.empty-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
 }
 
 .empty-state {
-    padding: 60px 0;
+  padding: 80px 40px;
+  text-align: center;
 }
 
-/* Dialog Styles */
+.empty-icon {
+  color: #cbd5e1;
+  margin-bottom: 20px;
+}
+
+.empty-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.empty-description {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* 对话框样式 */
+:deep(.translation-dialog .el-dialog) {
+  border-radius: 16px;
+}
+
+:deep(.translation-dialog .el-dialog__header) {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+:deep(.translation-dialog .el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+:deep(.translation-dialog .el-dialog__body) {
+  padding: 24px;
+}
+
+:deep(.translation-dialog .el-dialog__footer) {
+  padding: 16px 24px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.translation-form :deep(.el-form-item__label) {
+  font-weight: 600;
+  color: #475569;
+}
+
+:deep(.translation-form .el-input__wrapper) {
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.translation-form .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.translation-form .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+/* 语言输入滚动区域 */
 .language-inputs-scroll {
   max-height: 400px;
   overflow-y: auto;
   padding-right: 10px;
 }
 
+.language-inputs-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.language-inputs-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #22d3ee 0%, #14b8a6 100%);
+  border-radius: 3px;
+}
+
+.language-inputs-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+/* 导入对话框 */
 .import-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  border: 2px dashed #e5e7eb;
-  border-radius: 8px;
-  transition: border-color 0.3s;
-}
-
-.import-wrapper:hover {
-    border-color: #409eff;
-}
-
-.upload-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    padding: 20px;
-    width: 100%;
-}
-
-.upload-icon {
-    color: #909399;
-    margin-bottom: 10px;
-}
-
-.upload-text {
-    color: #606266;
-    font-size: 14px;
-}
-
-.file-name {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #409eff;
-    font-weight: 500;
 }
 
 .import-tip {
-    margin-bottom: 15px;
-    font-size: 14px;
-    color: #606266;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #64748b;
 }
 
-/* Custom Scrollbar for language inputs */
-.language-inputs-scroll::-webkit-scrollbar {
-    width: 6px;
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 20px;
+  width: 100%;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  transition: all 0.3s;
 }
 
-.language-inputs-scroll::-webkit-scrollbar-thumb {
-    background-color: #d1d5db;
-    border-radius: 3px;
+.upload-area:hover {
+  border-color: #06b6d4;
+  background: #f0fdfa;
 }
 
-.language-inputs-scroll::-webkit-scrollbar-track {
-    background-color: #f3f4f6;
+.upload-icon {
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+
+.upload-text {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.file-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #06b6d4;
+  font-weight: 500;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .page-title {
+    font-size: 24px;
+  }
+
+  .project-selector {
+    width: 100%;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input-group {
+    max-width: 100%;
+  }
+
+  .toolbar-actions {
+    justify-content: stretch;
+  }
+
+  .toolbar-actions .el-button {
+    flex: 1;
+  }
+
+  .pagination-container {
+    justify-content: center;
+  }
+
+  :deep(.el-pagination) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 </style>

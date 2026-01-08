@@ -314,7 +314,7 @@ const getRoleDisplayName = (role: string) => {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
   padding: 20px;
 }
 
@@ -356,7 +356,7 @@ const getRoleDisplayName = (role: string) => {
   flex-direction: column;
   align-items: center;
   padding: 32px;
-  color: #667eea;
+  color: #06b6d4;
 }
 
 .loading-state p {

@@ -91,7 +91,7 @@ const createMutation = useMutation({
         </div>
         <div style="margin-bottom: 16px;">
           <strong>邀请链接：</strong>
-          <a href="${data.invitation_url}" target="_blank" style="color: #409eff;">${data.invitation_url}</a>
+          <a href="${data.invitation_url}" target="_blank" style="color: #06b6d4;">${data.invitation_url}</a>
         </div>
         <div style="margin-bottom: 16px;">
           <strong>角色：</strong>${getRoleDisplayName(data.role)}
@@ -278,17 +278,18 @@ const getStatusConfig = (status: string) => {
   <div class="invitations-page">
     <!-- 页面头部 -->
     <div class="page-header">
-      <div>
-        <h1>邀请管理</h1>
-        <p class="subtitle">创建和管理用户邀请码</p>
+      <div class="header-content">
+        <h1 class="page-title">邀请管理</h1>
+        <p class="page-subtitle">创建和管理用户邀请码</p>
       </div>
-      <el-button type="primary" :icon="Plus" @click="handleCreate">
-        创建邀请码
-      </el-button>
+      <button class="create-button" @click="handleCreate">
+        <el-icon><Plus /></el-icon>
+        <span>创建邀请码</span>
+      </button>
     </div>
 
     <!-- 搜索和操作栏 -->
-    <el-card class="search-card" shadow="never">
+    <div class="search-card">
       <div class="search-bar">
         <div class="search-input-group">
           <el-input
@@ -296,107 +297,105 @@ const getStatusConfig = (status: string) => {
             placeholder="搜索邀请码或描述"
             :prefix-icon="Search"
             clearable
+            class="search-input"
             @clear="handleClearSearch"
             @keyup.enter="handleSearch"
           />
-          <el-button type="primary" :icon="Search" @click="handleSearch">
-            搜索
-          </el-button>
+          <button class="search-button" @click="handleSearch">
+            <el-icon><Search /></el-icon>
+            <span>搜索</span>
+          </button>
         </div>
-        <el-button :icon="Refresh" @click="handleRefresh">刷新</el-button>
+        <button class="refresh-button" @click="handleRefresh">
+          <el-icon><Refresh /></el-icon>
+        </button>
       </div>
-    </el-card>
+    </div>
 
     <!-- 邀请列表 -->
-    <el-card class="table-card" shadow="never">
+    <div class="table-card">
       <!-- 加载中状态 -->
       <div v-if="isLoading" class="loading-container">
         <el-skeleton :rows="5" animated />
       </div>
 
       <!-- 错误状态 -->
-      <el-alert
-        v-else-if="isError"
-        type="error"
-        :title="error?.message || '加载邀请列表失败'"
-        :description="'请检查网络连接或稍后重试'"
-        show-icon
-        :closable="false"
-      />
+      <div v-else-if="isError" class="error-container">
+        <svg class="error-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="error-title">加载邀请列表失败</h3>
+        <p class="error-message">{{ error?.message || '请检查网络连接或稍后重试' }}</p>
+      </div>
 
       <!-- 数据表格 -->
-      <div v-else>
+      <div v-else class="table-container">
         <el-table
           :data="invitations"
           style="width: 100%"
+          class="invitations-table"
           :empty-text="searchKeyword ? '没有找到匹配的邀请' : '暂无邀请数据'"
         >
           <el-table-column type="index" label="序号" width="80" :index="getIndex" />
 
           <el-table-column prop="code" label="邀请码" min-width="180">
             <template #default="{ row }">
-              <el-tag size="small" type="info">{{ row.code }}</el-tag>
+              <span class="code-badge">{{ row.code }}</span>
             </template>
           </el-table-column>
 
           <el-table-column label="邀请人" width="120">
             <template #default="{ row }">
-              {{ row.inviter?.username || '-' }}
+              <span class="inviter-text">{{ row.inviter?.username || '-' }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="角色" width="100">
+          <el-table-column label="角色" width="110" align="center">
             <template #default="{ row }">
-              <el-tag
-                size="small"
-                :type="row.role === 'admin' ? 'danger' : row.role === 'member' ? 'primary' : 'info'"
-              >
+              <div :class="['role-badge', `role-${row.role}`]">
                 {{ getRoleDisplayName(row.role) }}
-              </el-tag>
+              </div>
             </template>
           </el-table-column>
 
-          <el-table-column label="状态" width="100">
+          <el-table-column label="状态" width="90" align="center">
             <template #default="{ row }">
-              <el-tag :type="getStatusConfig(row.status).type" size="small">
+              <span
+                :class="['status-badge', `status-${row.status}`]"
+              >
                 {{ getStatusConfig(row.status).text }}
-              </el-tag>
+              </span>
             </template>
           </el-table-column>
 
-          <el-table-column label="过期时间" width="160">
+          <el-table-column label="过期时间" width="170">
             <template #default="{ row }">
-              {{ formatDateTime(row.expires_at) }}
+              <span class="date-text">{{ formatDateTime(row.expires_at) }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="创建时间" width="160">
+          <el-table-column label="创建时间" width="170">
             <template #default="{ row }">
-              {{ formatDateTime(row.created_at) }}
+              <span class="date-text">{{ formatDateTime(row.created_at) }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column label="操作" width="160" fixed="right">
+          <el-table-column label="操作" width="180" fixed="right" align="center">
             <template #default="{ row }">
-              <el-button
-                type="primary"
-                size="small"
-                :icon="Link"
-                link
-                @click="handleCopyLink(row)"
-              >
-                复制链接
-              </el-button>
-              <el-button
-                type="danger"
-                size="small"
-                :icon="Delete"
-                link
-                :disabled="row.status !== 'active'"
-                @click="handleRevoke(row)"
-              >
-                撤销
-              </el-button>
+              <div class="action-buttons">
+                <button class="action-button action-copy" @click="handleCopyLink(row)">
+                  <el-icon><Link /></el-icon>
+                  <span>复制链接</span>
+                </button>
+                <button
+                  class="action-button action-revoke"
+                  :disabled="row.status !== 'active'"
+                  @click="handleRevoke(row)"
+                >
+                  <el-icon><Delete /></el-icon>
+                  <span>撤销</span>
+                </button>
+              </div>
             </template>
           </el-table-column>
         </el-table>
@@ -414,7 +413,7 @@ const getStatusConfig = (status: string) => {
           />
         </div>
       </div>
-    </el-card>
+    </div>
 
     <!-- 创建邀请对话框 -->
     <el-dialog
@@ -423,12 +422,14 @@ const getStatusConfig = (status: string) => {
       width="480px"
       :close-on-click-modal="false"
       @close="handleCancel"
+      class="invitation-dialog"
     >
       <el-form
         ref="formRef"
         :model="formData"
         :rules="formRules"
         label-width="100px"
+        class="invitation-form"
       >
         <el-form-item label="角色" prop="role">
           <el-select v-model="formData.role" placeholder="请选择角色" style="width: 100%;">
@@ -484,6 +485,7 @@ const getStatusConfig = (status: string) => {
   margin: 0 auto;
 }
 
+/* 页面头部 */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -491,21 +493,61 @@ const getStatusConfig = (status: string) => {
   margin-bottom: 24px;
 }
 
-.page-header h1 {
+.header-content {
+  flex: 1;
+}
+
+.page-title {
   margin: 0;
-  font-size: 28px;
-  color: #303133;
-  font-weight: 600;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
 }
 
-.subtitle {
+.page-subtitle {
   margin: 8px 0 0;
-  font-size: 14px;
-  color: #909399;
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 500;
 }
 
+.create-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+.create-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(6, 182, 212, 0.4);
+}
+
+.create-button:active {
+  transform: translateY(0);
+}
+
+/* 搜索卡片 */
 .search-card {
-  margin-bottom: 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
 }
 
 .search-bar {
@@ -522,39 +564,380 @@ const getStatusConfig = (status: string) => {
   max-width: 600px;
 }
 
+.search-input {
+  flex: 1;
+}
+
+:deep(.search-input .el-input__wrapper) {
+  border-radius: 10px;
+  padding: 8px 16px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.search-input .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.search-input .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.search-button:hover {
+  opacity: 0.9;
+}
+
+.refresh-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* 表格卡片 */
 .table-card {
-  border-radius: 8px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  overflow: hidden;
 }
 
 .loading-container {
-  padding: 20px;
+  padding: 40px;
 }
 
+/* 错误状态 */
+.error-container {
+  padding: 60px 40px;
+  text-align: center;
+}
+
+.error-icon {
+  width: 64px;
+  height: 64px;
+  color: #f43f5e;
+  margin: 0 auto 20px;
+}
+
+.error-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.error-message {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.table-container {
+  padding: 4px;
+}
+
+/* 表格样式 */
+:deep(.invitations-table) {
+  border: none;
+}
+
+:deep(.invitations-table .el-table__header-wrapper) {
+  background: #f8fafc;
+}
+
+:deep(.invitations-table th.el-table__cell) {
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 16px 12px;
+}
+
+:deep(.invitations-table td.el-table__cell) {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 16px 12px;
+}
+
+:deep(.invitations-table tr:hover > td) {
+  background: #f8fafc;
+}
+
+:deep(.invitations-table .el-table__empty-block) {
+  padding: 40px 0;
+}
+
+/* 邀请码徽章 */
+.code-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0284c7;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Fira Code', monospace;
+}
+
+.inviter-text {
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* 角色徽章 */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-admin {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #e11d48;
+}
+
+.role-member {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #2563eb;
+}
+
+.role-viewer {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #64748b;
+}
+
+/* 状态标签 */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-active {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  color: #059669;
+}
+
+.status-used {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #2563eb;
+}
+
+.status-revoked {
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #dc2626;
+}
+
+.status-expired {
+  background: linear-gradient(135deg, #fffbeb 0%, #fed7aa 100%);
+  color: #d97706;
+}
+
+.date-text {
+  font-size: 14px;
+  color: #64748b;
+  font-family: 'Fira Code', monospace;
+}
+
+/* 操作按钮 */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.action-copy {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #2563eb;
+}
+
+.action-copy:hover {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  transform: translateY(-1px);
+}
+
+.action-revoke {
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  color: #e11d48;
+}
+
+.action-revoke:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%);
+  transform: translateY(-1px);
+}
+
+.action-revoke:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 分页 */
 .pagination-container {
   display: flex;
   justify-content: flex-end;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
+  padding: 20px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+:deep(.el-pagination) {
+  font-weight: 500;
+}
+
+:deep(.el-pagination .el-pager li) {
+  border-radius: 8px;
+  margin: 0 2px;
+}
+
+:deep(.el-pagination .el-pager li.is-active) {
+  background: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  color: #ffffff;
+}
+
+:deep(.el-pagination button) {
+  border-radius: 8px;
+}
+
+/* 对话框样式 */
+:deep(.invitation-dialog .el-dialog) {
+  border-radius: 16px;
+}
+
+:deep(.invitation-dialog .el-dialog__header) {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+:deep(.invitation-dialog .el-dialog__title) {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+:deep(.invitation-dialog .el-dialog__body) {
+  padding: 24px;
+}
+
+:deep(.invitation-dialog .el-dialog__footer) {
+  padding: 16px 24px 24px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* 表单样式 */
+:deep(.invitation-form .el-form-item__label) {
+  font-weight: 600;
+  color: #475569;
+}
+
+:deep(.invitation-form .el-input__wrapper) {
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.invitation-form .el-input__wrapper:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.invitation-form .el-input__wrapper.is-focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+:deep(.invitation-form .el-textarea__inner) {
+  border-radius: 10px;
+  box-shadow: none;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s ease;
+}
+
+:deep(.invitation-form .el-textarea__inner:hover) {
+  border-color: #cbd5e1;
+}
+
+:deep(.invitation-form .el-textarea__inner:focus) {
+  border-color: #06b6d4;
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
 }
 
 .form-tip {
   display: block;
   margin-top: 4px;
   font-size: 12px;
-  color: #909399;
+  color: #64748b;
 }
 
 /* 响应式设计 */
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 16px;
   }
 
-  .page-header h1 {
+  .page-title {
     font-size: 24px;
+  }
+
+  .create-button {
+    width: 100%;
+    justify-content: center;
   }
 
   .search-bar {
@@ -566,6 +949,11 @@ const getStatusConfig = (status: string) => {
     max-width: 100%;
   }
 
+  .search-button {
+    flex: 1;
+    justify-content: center;
+  }
+
   .pagination-container {
     justify-content: center;
   }
@@ -573,6 +961,14 @@ const getStatusConfig = (status: string) => {
   :deep(.el-pagination) {
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  :deep(.invitations-table) {
+    font-size: 13px;
+  }
+
+  .action-button span {
+    display: none;
   }
 }
 </style>

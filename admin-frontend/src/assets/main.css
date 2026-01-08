@@ -4,17 +4,575 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* Deep Aurora Theme - 深海极光配色系统 */
+  --color-aurora-50: #ecfeff;
+  --color-aurora-100: #cffafe;
+  --color-aurora-200: #a5f3fc;
+  --color-aurora-300: #67e8f9;
+  --color-aurora-400: #22d3ee;
+  --color-aurora-500: #06b6d4;
+  --color-aurora-600: #0891b2;
+  --color-aurora-700: #0e7490;
+  --color-aurora-800: #155e75;
+  --color-aurora-900: #164e63;
+
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-200: #99f6e4;
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
+  --color-teal-800: #115e59;
+  --color-teal-900: #134e4a;
+
+  /* Midnight Colors - 深夜色系 */
+  --color-midnight-50: #f8fafc;
+  --color-midnight-100: #f1f5f9;
+  --color-midnight-200: #e2e8f0;
+  --color-midnight-300: #cbd5e1;
+  --color-midnight-400: #94a3b8;
+  --color-midnight-500: #64748b;
+  --color-midnight-600: #475569;
+  --color-midnight-700: #334155;
+  --color-midnight-800: #1e293b;
+  --color-midnight-900: #0f172a;
+  --color-midnight-950: #020617;
+
+  /* Ocean Colors - 深海色系 */
+  --color-ocean-50: #f0f9ff;
+  --color-ocean-100: #e0f2fe;
+  --color-ocean-200: #bae6fd;
+  --color-ocean-300: #7dd3fc;
+  --color-ocean-400: #38bdf8;
+  --color-ocean-500: #0ea5e9;
+  --color-ocean-600: #0284c7;
+  --color-ocean-700: #0369a1;
+  --color-ocean-800: #075985;
+  --color-ocean-900: #0c4a6e;
+
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #06b6d4;
+
+  /* Gradients */
+  --gradient-aurora: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
+  --gradient-aurora-reverse: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+  --gradient-midnight: linear-gradient(180deg, #0f172a 0%, #020617 100%);
+  --gradient-ocean: linear-gradient(135deg, #0c4a6e 0%, #082f49 50%, #020617 100%);
+  --gradient-shimmer: linear-gradient(90deg, transparent 0%, rgba(6, 182, 212, 0.1) 50%, transparent 100%);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  --shadow-aurora: 0 0 20px rgba(6, 182, 212, 0.2), 0 0 40px rgba(20, 184, 166, 0.1);
+  --shadow-aurora-strong: 0 0 30px rgba(6, 182, 212, 0.3), 0 0 60px rgba(20, 184, 166, 0.2);
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
     'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-midnight-50);
+  color: var(--color-midnight-800);
+  line-height: 1.6;
 }
 
 #app {
   width: 100%;
   min-height: 100vh;
+}
+
+/* 全局滚动条样式 - 极光风格 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-midnight-100);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-aurora-400) 0%, var(--color-teal-500) 100%);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-base);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-aurora-500) 0%, var(--color-teal-600) 100%);
+}
+
+/* Element Plus 全局样式覆盖 */
+.el-button--primary {
+  background: var(--gradient-aurora);
+  border: none;
+  font-weight: 600;
+  box-shadow: var(--shadow-aurora);
+  transition: all var(--transition-base);
+}
+
+.el-button--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-aurora-strong);
+}
+
+.el-button--primary:active {
+  transform: translateY(0);
+}
+
+.el-input__wrapper {
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  border: 1px solid var(--color-midnight-200);
+  transition: all var(--transition-base);
+  padding: 8px 16px;
+}
+
+.el-input__wrapper:hover {
+  border-color: var(--color-aurora-300);
+}
+
+.el-input__wrapper.is-focus {
+  border-color: var(--color-aurora-500);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+.el-input__inner {
+  font-size: 15px;
+  color: var(--color-midnight-800);
+}
+
+.el-textarea__inner {
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  border: 1px solid var(--color-midnight-200);
+  transition: all var(--transition-base);
+  padding: 12px 16px;
+  font-size: 15px;
+}
+
+.el-textarea__inner:hover {
+  border-color: var(--color-aurora-300);
+}
+
+.el-textarea__inner:focus {
+  border-color: var(--color-aurora-500);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+}
+
+.el-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-midnight-100);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.el-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.el-dialog {
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+}
+
+.el-table {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.el-table th.el-table__cell {
+  background: var(--color-midnight-50);
+  color: var(--color-midnight-700);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
+}
+
+.el-table tr:hover > td {
+  background: var(--color-aurora-50);
+}
+
+/* Element Plus Message 深海极光主题美化 */
+.el-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  min-width: 320px;
+  max-width: 480px;
+  border-radius: 20px;
+  border: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset,
+    0 0 40px rgba(6, 182, 212, 0.1);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.el-message::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--gradient-aurora);
+}
+
+.el-message__content {
+  color: var(--color-midnight-800);
+  line-height: 1.5;
+}
+
+.el-message__icon {
+  font-size: 20px;
+  width: 24px;
+  height: 24px;
+}
+
+.el-message__closeBtn {
+  color: var(--color-midnight-400);
+  transition: all 0.2s ease;
+}
+
+.el-message__closeBtn:hover {
+  color: var(--color-midnight-700);
+}
+
+/* Success 成功样式 - 青绿色极光 */
+.el-message--success {
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.08) 0%, rgba(240, 253, 250, 0.95) 100%);
+  box-shadow:
+    0 4px 20px rgba(20, 184, 166, 0.15),
+    0 0 0 1px rgba(20, 184, 166, 0.2) inset,
+    0 0 40px rgba(20, 184, 166, 0.12);
+}
+
+.el-message--success::before {
+  background: linear-gradient(180deg, #14b8a6 0%, #0d9488 100%);
+}
+
+.el-message--success .el-message__icon {
+  color: #0d9488;
+}
+
+/* Info 信息样式 - 青色极光 */
+.el-message--info {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(236, 254, 255, 0.95) 100%);
+  box-shadow:
+    0 4px 20px rgba(6, 182, 212, 0.15),
+    0 0 0 1px rgba(6, 182, 212, 0.2) inset,
+    0 0 40px rgba(6, 182, 212, 0.12);
+}
+
+.el-message--info::before {
+  background: linear-gradient(180deg, #06b6d4 0%, #0891b2 100%);
+}
+
+.el-message--info .el-message__icon {
+  color: #0891b2;
+}
+
+/* Warning 警告样式 - 琥金色光晕 */
+.el-message--warning {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(255, 251, 235, 0.95) 100%);
+  box-shadow:
+    0 4px 20px rgba(245, 158, 11, 0.15),
+    0 0 0 1px rgba(245, 158, 11, 0.2) inset,
+    0 0 40px rgba(245, 158, 11, 0.12);
+}
+
+.el-message--warning::before {
+  background: linear-gradient(180deg, #f59e0b 0%, #d97706 100%);
+}
+
+.el-message--warning .el-message__icon {
+  color: #d97706;
+}
+
+/* Error 错误样式 - 红色光晕 */
+.el-message--error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(254, 242, 242, 0.95) 100%);
+  box-shadow:
+    0 4px 20px rgba(239, 68, 68, 0.15),
+    0 0 0 1px rgba(239, 68, 68, 0.2) inset,
+    0 0 40px rgba(239, 68, 68, 0.12);
+}
+
+.el-message--error::before {
+  background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+}
+
+.el-message--error .el-message__icon {
+  color: #dc2626;
+}
+
+/* Message 进入动画 */
+.el-message-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-20px) scale(0.95);
+}
+
+.el-message-fade-enter-active {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.el-message-fade-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.el-message-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.el-message-fade-leave-active {
+  transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
+}
+
+.el-message-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+}
+
+/* 动画关键帧 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+@keyframes aurora {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(0) translateX(10px);
+  }
+  75% {
+    transform: translateY(10px) translateX(5px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
+  }
+}
+
+/* 工具类 */
+.animate-fade-in { animation: fadeIn 0.3s ease-out; }
+.animate-fade-in-up { animation: fadeInUp 0.4s ease-out; }
+.animate-fade-in-down { animation: fadeInDown 0.4s ease-out; }
+.animate-slide-in-left { animation: slideInLeft 0.4s ease-out; }
+.animate-slide-in-right { animation: slideInRight 0.4s ease-out; }
+.animate-scale-in { animation: scaleIn 0.3s ease-out; }
+.animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-spin { animation: spin 1s linear infinite; }
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-glow { animation: glow 2s ease-in-out infinite; }
+
+/* 文本渐变 */
+.text-gradient-aurora {
+  background: var(--gradient-aurora);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: aurora 3s ease infinite;
+}
+
+.text-gradient-ocean {
+  background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 玻璃态效果 */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-aurora {
+  background: rgba(6, 182, 212, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(6, 182, 212, 0.2);
+}
+
+/* 加载骨架屏 */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-midnight-100) 25%,
+    var(--color-midnight-200) 50%,
+    var(--color-midnight-100) 75%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* 发光效果 */
+.glow-aurora {
+  box-shadow: var(--shadow-aurora);
+}
+
+.glow-aurora-strong {
+  box-shadow: var(--shadow-aurora-strong);
+}
+
+/* 响应式断点辅助类 */
+@media (max-width: 640px) {
+  .hide-mobile { display: none !important; }
+}
+
+@media (max-width: 768px) {
+  .hide-tablet { display: none !important; }
+}
+
+@media (max-width: 1024px) {
+  .hide-desktop { display: none !important; }
+}
+
+@media (min-width: 641px) {
+  .show-mobile-only { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .show-tablet-only { display: none !important; }
+}
+
+@media (min-width: 1025px) {
+  .show-desktop-only { display: none !important; }
 }

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>YFlow - Powerful Self-Hosted i18n Solution</title>
+  <meta name="description" content="A complete self-hosted internationalization solution. CLI scanning & pushing, visual editing, team collaboration, Docker one-click deployment.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -14,29 +15,36 @@
   <nav class="nav">
     <div class="nav-container">
       <a href="#" class="logo">
-        <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
-          <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
-          <path d="M10 12h12M10 16h8M10 20h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4L4 10V22L16 28L28 22V10L16 4Z" stroke="url(#logo-gradient)" stroke-width="2" fill="none"/>
+          <path d="M16 4V28M4 10L16 16L28 10" stroke="url(#logo-gradient)" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="4" fill="url(#logo-gradient)"/>
+          <defs>
+            <linearGradient id="logo-gradient" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#06b6d4"/>
+              <stop offset="1" stop-color="#14b8a6"/>
+            </linearGradient>
+          </defs>
         </svg>
         <span data-i18n="logo_text">YFlow</span>
       </a>
       <div class="nav-links">
-        <a href="#features" data-i18n="nav_features">特性</a>
-        <a href="#architecture" data-i18n="nav_architecture">架构</a>
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#architecture" data-i18n="nav_architecture">Architecture</a>
         <a href="#cli" data-i18n="nav_cli">CLI</a>
-        <a href="#docker" data-i18n="nav_deploy">部署</a>
-        <a href="#roadmap" data-i18n="nav_roadmap">路线图</a>
-        <div class="lang-switcher">
-          <button class="lang-btn active" data-lang="en">EN</button>
-          <span class="lang-divider">|</span>
-          <button class="lang-btn" data-lang="zh">中文</button>
-        </div>
-        <a href="https://github.com" target="_blank" class="github-link">
+        <a href="#deploy" data-i18n="nav_deploy">Deploy</a>
+        <a href="#roadmap" data-i18n="nav_roadmap">Roadmap</a>
+        <a href="https://github.com/ishechuan/yflow" target="_blank" class="github-link">
           <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
           </svg>
           <span data-i18n="nav_github">GitHub</span>
         </a>
+        <div class="lang-switcher">
+          <button class="lang-btn" data-lang="en">EN</button>
+          <span class="lang-divider">/</span>
+          <button class="lang-btn" data-lang="zh">中文</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -51,99 +59,106 @@
     <div class="hero-container">
       <div class="hero-content">
         <div class="badge-wrapper">
-          <span class="badge" data-i18n="badge">开源 • 自托管 • 现代化</span>
+          <span class="badge" data-i18n="badge">Open Source • Self-Hosted • Modern</span>
         </div>
         <h1 class="hero-title">
-          <span data-i18n="hero_title_prefix">您的</span>
+          <span data-i18n="hero_title_prefix">Your</span>
           <span class="gradient-text" data-i18n="hero_title_i18n">i18n</span>
-          <span data-i18n="hero_title_suffix">工作流</span>
-          <br>
-          <span data-i18n="hero_title_line">从此与众不同</span>
+          <span data-i18n="hero_title_suffix">workflow</span><br>
+          <span class="gradient-text" data-i18n="hero_title_line">reimagined</span>
         </h1>
         <p class="hero-subtitle" data-i18n="hero_subtitle">
-          一站式自托管国际化解决方案。CLI 扫描推送、可视化编辑、团队协作、Docker 一键部署 —— 让全球化从未如此简单。
+          A complete self-hosted internationalization solution. CLI scanning & pushing, visual editing, team collaboration, Docker one-click deployment — globalization has never been easier.
         </p>
         <div class="hero-actions">
-          <a href="#docker" class="btn btn-primary">
+          <a href="#deploy" class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M4 4h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2z"/>
-              <path d="M22 6l-10 7L2 6"/>
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+              <line x1="12" y1="22.08" x2="12" y2="12"/>
             </svg>
-            <span data-i18n="btn_deploy">立即部署</span>
+            <span data-i18n="btn_deploy">Deploy Now</span>
           </a>
-          <a href="#cli" class="btn btn-secondary" data-i18n="btn_cli">体验 CLI</a>
+          <a href="#cli" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 17 10 11 4 5"/>
+              <line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+            <span data-i18n="btn_cli">Try CLI</span>
+          </a>
         </div>
         <div class="hero-command">
-          <code id="heroCommand">git clone &amp;&amp; docker-compose up -d</code>
-          <button class="copy-btn" onclick="copyCommand()">
+          <code id="heroCommand" data-i18n="copy_command">git clone && docker-compose up -d</code>
+          <button class="copy-btn" onclick="copyCommand()" aria-label="Copy command">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
             </svg>
           </button>
         </div>
       </div>
-
-      <!-- CLI Demo Animation -->
       <div class="hero-demo">
         <div class="terminal">
           <div class="terminal-header">
             <div class="terminal-dots">
               <span></span><span></span><span></span>
             </div>
-            <span class="terminal-title" data-i18n="cli_demo_title">CLI Demo</span>
+            <span class="terminal-title">yflow-cli</span>
           </div>
           <div class="terminal-content">
             <div class="cli-step" id="cli-step-1">
               <span class="cli-prompt">$</span>
               <span class="cli-command" data-i18n="cli_step1_command">yflow init</span>
-              <div class="cli-output" data-i18n="cli_step1_output">✓ 配置初始化完成</div>
+              <div class="cli-output" data-i18n="cli_step1_output">✓ Configuration initialized</div>
             </div>
             <div class="cli-step" id="cli-step-2">
               <span class="cli-prompt">$</span>
               <span class="cli-command" data-i18n="cli_step2_command">yflow import</span>
               <div class="cli-output">
-                <div class="scanning-animation"><span data-i18n="cli_step2_scanning">扫描中</span><span class="dots"></span></div>
-                <div class="scan-result" data-i18n="cli_step2_found">📁 发现 12 个文件</div>
-                <div class="scan-result" data-i18n="cli_step2_keys">🔑 解析 156 个 key</div>
-                <div class="push-animation"><span data-i18n="cli_step2_pushing">推送中</span><span class="dots"></span></div>
-                <div class="push-result" data-i18n="cli_step2_complete">✓ 上传完成</div>
+                <span class="scanning-animation"><span class="dots" data-i18n="cli_step2_scanning">Scanning</span></span><br>
+                <span data-i18n="cli_step2_found">📁 Found 12 files</span><br>
+                <span data-i18n="cli_step2_keys">🔑 Parsed 156 keys</span><br>
+                <span class="push-animation"><span class="dots" data-i18n="cli_step2_pushing">Pushing</span></span><br>
+                <span class="push-result" data-i18n="cli_step2_complete">✓ Upload complete</span>
               </div>
             </div>
             <div class="cli-step" id="cli-step-3">
               <span class="cli-prompt">$</span>
-              <span class="cli-command" data-i18n="cli_step3_complete">同步完成!</span>
+              <span class="cli-command">yflow sync</span>
+              <div class="cli-output">
+                <span class="scan-result" data-i18n="cli_step3_complete">Sync complete!</span>
+              </div>
             </div>
           </div>
         </div>
         <div class="ui-preview">
           <div class="ui-header">
-            <span class="ui-title" data-i18n="ui_title">翻译管理</span>
-            <span class="ui-badge" data-i18n="ui_badge">中文 (简体)</span>
+            <span class="ui-title" data-i18n="ui_title">Translation Management</span>
+            <span class="ui-badge" data-i18n="ui_badge">English</span>
           </div>
           <div class="ui-content">
             <div class="ui-row header-row">
-              <span class="ui-key" data-i18n="ui_key">Key</span>
-              <span class="ui-lang" data-i18n="ui_english">English</span>
-              <span class="ui-lang" data-i18n="ui_chinese">简体中文</span>
+              <span data-i18n="ui_key">Key</span>
+              <span data-i18n="ui_english">English</span>
+              <span data-i18n="ui_chinese">Chinese (Simplified)</span>
             </div>
             <div class="ui-row">
-              <span class="ui-key">auth.login.title</span>
-              <span class="ui-lang-en updated">Welcome back</span>
-              <span class="ui-lang-zh updated">欢迎回来</span>
+              <span class="ui-key">common.save</span>
+              <span class="ui-lang-en">Save</span>
+              <span class="ui-lang-zh">保存</span>
             </div>
             <div class="ui-row">
-              <span class="ui-key">auth.login.button</span>
-              <span class="ui-lang-en">Sign In</span>
-              <span class="ui-lang-zh">登录</span>
+              <span class="ui-key">common.cancel</span>
+              <span class="ui-lang-en">Cancel</span>
+              <span class="ui-lang-zh">取消</span>
             </div>
             <div class="ui-row">
-              <span class="ui-key">auth.register.title</span>
-              <span class="ui-lang-en">Create Account</span>
-              <span class="ui-lang-zh updated">创建账户</span>
+              <span class="ui-key">common.delete</span>
+              <span class="ui-lang-en">Delete</span>
+              <span class="ui-lang-zh updated">删除</span>
             </div>
             <div class="ui-change-indicator" id="changeIndicator">
-              <span data-i18n="ui_changes">3 处更新</span>
+              <span data-i18n="ui_changes">3 updates</span>
             </div>
           </div>
         </div>
@@ -155,19 +170,62 @@
   <section class="features" id="features">
     <div class="section-container">
       <div class="section-header">
-        <span class="section-label" data-i18n="section_label_features">核心特性</span>
+        <span class="section-label" data-i18n="section_label_features">Core Features</span>
         <h2 class="section-title" data-i18n="section_title_features">Everything you need for i18n</h2>
-        <p class="section-subtitle" data-i18n="section_subtitle_features">从代码到翻译到部署，全链路解决方案</p>
+        <p class="section-subtitle" data-i18n="section_subtitle_features">End-to-end solution from code to translation to deployment</p>
       </div>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="3" y1="9" x2="21" y2="9"/>
+              <line x1="9" y1="21" x2="9" y2="9"/>
             </svg>
           </div>
-          <h3 data-i18n="feature_1_title">多语言矩阵视图</h3>
-          <p data-i18n="feature_1_desc">直观的表格界面，同时编辑多种语言。所见即所得，翻译进度一目了然。</p>
+          <h3 data-i18n="feature_1_title">Multi-Language Matrix View</h3>
+          <p data-i18n="feature_1_desc">Intuitive spreadsheet interface for editing multiple languages at once. WYSIWYG with clear translation progress.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="4 17 10 11 4 5"/>
+              <line x1="12" y1="19" x2="20" y2="19"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feature_2_title">CLI Automation</h3>
+          <p data-i18n="feature_2_desc">Scan local files, auto-push, CI/CD integration. Zero-friction development workflow.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feature_3_title">Team Collaboration</h3>
+          <p data-i18n="feature_3_desc">Invitation codes, role-based permissions (Owner/Editor/Viewer), audit logs.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feature_4_title">Enterprise Security</h3>
+          <p data-i18n="feature_4_desc">JWT dual tokens, API Key authentication, SQL injection protection, XSS protection, rate limiting.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <h3 data-i18n="feature_5_title">Redis Caching</h3>
+          <p data-i18n="feature_5_desc">High-frequency API caching with distributed support. Millisecond-level response times.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon">
@@ -177,50 +235,8 @@
               <line x1="9" y1="21" x2="9" y2="9"/>
             </svg>
           </div>
-          <h3 data-i18n="feature_2_title">CLI 自动化</h3>
-          <p data-i18n="feature_2_desc">扫描本地文件、自动推送、CI/CD 集成。开发流程零负担。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
-            </svg>
-          </div>
-          <h3 data-i18n="feature_3_title">团队协作</h3>
-          <p data-i18n="feature_3_desc">邀请码机制、角色权限管理 (Owner/Editor/Viewer)、操作审计。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            </svg>
-          </div>
-          <h3 data-i18n="feature_4_title">企业级安全</h3>
-          <p data-i18n="feature_4_desc">JWT 双令牌、API Key 认证、SQL 注入防护、XSS 防护、请求限流。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="23 4 23 10 17 10"/>
-              <polyline points="1 20 1 14 7 14"/>
-              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
-            </svg>
-          </div>
-          <h3 data-i18n="feature_5_title">Redis 缓存加速</h3>
-          <p data-i18n="feature_5_desc">高频 API 缓存、分布式支持。响应速度毫秒级。</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-              <line x1="8" y1="21" x2="16" y2="21"/>
-              <line x1="12" y1="17" x2="12" y2="21"/>
-            </svg>
-          </div>
-          <h3 data-i18n="feature_6_title">完整 Admin UI</h3>
-          <p data-i18n="feature_6_desc">Vue 3 + Element Plus 管理后台。项目、用户、翻译、邀请码一站式管理。</p>
+          <h3 data-i18n="feature_6_title">Complete Admin UI</h3>
+          <p data-i18n="feature_6_desc">Vue 3 + Element Plus admin dashboard. Projects, users, translations, invitations — all in one place.</p>
         </div>
       </div>
     </div>
@@ -230,41 +246,42 @@
   <section class="architecture" id="architecture">
     <div class="section-container">
       <div class="section-header">
-        <span class="section-label" data-i18n="section_label_arch">技术架构</span>
-        <h2 class="section-title" data-i18n="section_title_arch">现代技术栈</h2>
-        <p class="section-subtitle" data-i18n="section_subtitle_arch">每一层都是业界最佳实践</p>
+        <span class="section-label" data-i18n="section_label_arch">Tech Stack</span>
+        <h2 class="section-title" data-i18n="section_title_arch">Modern Architecture</h2>
+        <p class="section-subtitle" data-i18n="section_subtitle_arch">Best practices at every layer</p>
       </div>
       <div class="arch-grid">
-        <div class="arch-card" data-arch="backend">
+        <div class="arch-card">
           <div class="arch-header">
             <div class="arch-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                <line x1="8" y1="21" x2="16" y2="21"/>
-                <line x1="12" y1="17" x2="12" y2="21"/>
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5"/>
+                <path d="M2 12l10 5 10-5"/>
               </svg>
             </div>
             <h3 data-i18n="arch_backend">Admin Backend</h3>
             <span class="arch-badge" data-i18n="arch_backend_badge">Go + Gin</span>
           </div>
           <ul class="arch-features">
-            <li data-i18n="arch_backend_f1">RESTful API (Swagger 文档)</li>
+            <li data-i18n="arch_backend_f1">RESTful API (Swagger docs)</li>
             <li data-i18n="arch_backend_f2">GORM + MySQL 8.0</li>
-            <li data-i18n="arch_backend_f3">Redis 7.2 缓存层</li>
-            <li data-i18n="arch_backend_f4">Uber FX 依赖注入</li>
+            <li data-i18n="arch_backend_f3">Redis 7.2 caching layer</li>
+            <li data-i18n="arch_backend_f4">Uber FX dependency injection</li>
             <li data-i18n="arch_backend_f5">Clean Architecture</li>
           </ul>
           <div class="arch-stats">
-            <span data-i18n="arch_backend_s1">15+ API 模块</span>
-            <span data-i18n="arch_backend_s2">6 层安全中间件</span>
+            <span data-i18n="arch_backend_s1">15+ API modules</span>
+            <span data-i18n="arch_backend_s2">6 security middleware layers</span>
           </div>
         </div>
-        <div class="arch-card" data-arch="frontend">
+        <div class="arch-card">
           <div class="arch-header">
             <div class="arch-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polygon points="10 8 16 12 10 16 10 8"/>
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
               </svg>
             </div>
             <h3 data-i18n="arch_frontend">Admin Frontend</h3>
@@ -272,17 +289,17 @@
           </div>
           <ul class="arch-features">
             <li data-i18n="arch_frontend_f1">Composition API</li>
-            <li data-i18n="arch_frontend_f2">Pinia 状态管理</li>
+            <li data-i18n="arch_frontend_f2">Pinia state management</li>
             <li data-i18n="arch_frontend_f3">TanStack Vue Query</li>
             <li data-i18n="arch_frontend_f4">Element Plus UI</li>
-            <li data-i18n="arch_frontend_f5">JWT 认证流程</li>
+            <li data-i18n="arch_frontend_f5">JWT authentication flow</li>
           </ul>
           <div class="arch-stats">
-            <span data-i18n="arch_frontend_s1">8+ 功能页面</span>
-            <span data-i18n="arch_frontend_s2">RBAC 权限控制</span>
+            <span data-i18n="arch_frontend_s1">8+ feature pages</span>
+            <span data-i18n="arch_frontend_s2">RBAC access control</span>
           </div>
         </div>
-        <div class="arch-card" data-arch="cli">
+        <div class="arch-card">
           <div class="arch-header">
             <div class="arch-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -294,40 +311,38 @@
             <span class="arch-badge" data-i18n="arch_cli_badge">Bun + TS</span>
           </div>
           <ul class="arch-features">
-            <li data-i18n="arch_cli_f1">Commander 命令行</li>
-            <li data-i18n="arch_cli_f2">自动扫描 JSON 文件</li>
-            <li data-i18n="arch_cli_f3">扁平化/结构化转换</li>
-            <li data-i18n="arch_cli_f4">API Key 认证</li>
-            <li data-i18n="arch_cli_f5">CI/CD 友好</li>
+            <li data-i18n="arch_cli_f1">Commander CLI framework</li>
+            <li data-i18n="arch_cli_f2">Auto-scan JSON files</li>
+            <li data-i18n="arch_cli_f3">Flat/structured conversion</li>
+            <li data-i18n="arch_cli_f4">API Key authentication</li>
+            <li data-i18n="arch_cli_f5">CI/CD friendly</li>
           </ul>
           <div class="arch-stats">
-            <span data-i18n="arch_cli_s1">3 核心命令</span>
-            <span data-i18n="arch_cli_s2">秒级同步</span>
+            <span data-i18n="arch_cli_s1">3 core commands</span>
+            <span data-i18n="arch_cli_s2">Second-level sync</span>
           </div>
         </div>
-        <div class="arch-card" data-arch="docs">
+        <div class="arch-card">
           <div class="arch-header">
             <div class="arch-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
               </svg>
             </div>
             <h3 data-i18n="arch_docs">Documentation</h3>
             <span class="arch-badge" data-i18n="arch_docs_badge">VitePress</span>
           </div>
           <ul class="arch-features">
-            <li data-i18n="arch_docs_f1">快速响应的文档站</li>
-            <li data-i18n="arch_docs_f2">API 参考文档</li>
-            <li data-i18n="arch_docs_f3">部署指南</li>
-            <li data-i18n="arch_docs_f4">最佳实践指南</li>
-            <li data-i18n="arch_docs_f5">团队协作文档</li>
+            <li data-i18n="arch_docs_f1">Fast-loading docs site</li>
+            <li data-i18n="arch_docs_f2">API reference docs</li>
+            <li data-i18n="arch_docs_f3">Deployment guide</li>
+            <li data-i18n="arch_docs_f4">Best practices guide</li>
+            <li data-i18n="arch_docs_f5">Team collaboration docs</li>
           </ul>
           <div class="arch-stats">
-            <span data-i18n="arch_docs_s1">5+ 文档模块</span>
-            <span data-i18n="arch_docs_s2">持续更新</span>
+            <span data-i18n="arch_docs_s1">5+ doc modules</span>
+            <span data-i18n="arch_docs_s2">Continuously updated</span>
           </div>
         </div>
       </div>
@@ -340,28 +355,28 @@
       <div class="cli-layout">
         <div class="cli-content">
           <span class="section-label" data-i18n="section_label_cli">CLI Workflow</span>
-          <h2 class="section-title" data-i18n="section_title_cli">从代码到云端，<br>只需三步</h2>
+          <h2 class="section-title" data-i18n="section_title_cli">From code to cloud,<br>in just three steps</h2>
           <div class="workflow-steps">
             <div class="workflow-step">
-              <div class="step-number" data-i18n="step_1_number">01</div>
+              <span class="step-number" data-i18n="step_1_number">01</span>
               <div class="step-content">
                 <h4 data-i18n="step_1_title">yflow init</h4>
-                <p data-i18n="step_1_desc">初始化配置文件，设置项目 ID、API 地址、语言映射。</p>
+                <p data-i18n="step_1_desc">Initialize configuration file, set project ID, API address, and language mappings.</p>
                 <code data-i18n="step_1_code">.i18nrc.json</code>
               </div>
             </div>
             <div class="workflow-step">
-              <div class="step-number" data-i18n="step_2_number">02</div>
+              <span class="step-number" data-i18n="step_2_number">02</span>
               <div class="step-content">
                 <h4 data-i18n="step_2_title">yflow import</h4>
-                <p data-i18n="step_2_desc">扫描 messagesDir 目录，自动解析 JSON 文件中的翻译 key，推送到服务器。</p>
+                <p data-i18n="step_2_desc">Scan messagesDir directory, automatically parse translation keys from JSON files, and push to server.</p>
               </div>
             </div>
             <div class="workflow-step">
-              <div class="step-number" data-i18n="step_3_number">03</div>
+              <span class="step-number" data-i18n="step_3_number">03</span>
               <div class="step-content">
                 <h4 data-i18n="step_3_title">yflow sync</h4>
-                <p data-i18n="step_3_desc">从服务器拉取最新翻译，保持本地文件与云端同步。</p>
+                <p data-i18n="step_3_desc">Pull latest translations from server, keep local files in sync with cloud.</p>
               </div>
             </div>
           </div>
@@ -375,36 +390,24 @@
               <span class="terminal-title" data-i18n="terminal_title">Terminal</span>
             </div>
             <div class="terminal-content">
-              <div class="cli-line">
-                <span class="cli-prompt">$</span>
-                <span class="cli-command" data-i18n="cli_step1_command">yflow init</span>
+              <div class="cli-line"><span class="cli-prompt">$</span> yflow init</div>
+              <div class="cli-line output" data-i18n="terminal_init_success">✓ Config file generated: .i18nrc.json</div>
+              <div class="cli-line"><span class="cli-prompt">$</span> yflow import</div>
+              <div class="cli-line output">
+                <span class="scanning" data-i18n="terminal_import_scan">🔍 Scanning /src/locales...</span>
               </div>
               <div class="cli-line output">
-                <span class="success">✓</span> <span data-i18n="terminal_init_success">配置文件已生成: .i18nrc.json</span>
-              </div>
-              <div class="cli-line">
-                <span class="cli-prompt">$</span>
-                <span class="cli-command" data-i18n="cli_step2_command">yflow import</span>
-              </div>
-              <div class="cli-line output indent">
-                <span class="scanning">🔍</span> <span data-i18n="terminal_import_scan">扫描 /src/locales...</span>
-              </div>
-              <div class="cli-line output indent">
-                <span class="found">📁</span> <span data-i18n="terminal_import_files">解析 3 个文件</span>
-              </div>
-              <div class="cli-line output indent">
-                <span class="keys">🔑</span> <span data-i18n="terminal_import_keys">发现 156 个翻译键</span>
-              </div>
-              <div class="cli-line output indent">
-                <span class="pushing">📤</span> <span data-i18n="terminal_import_pushing">推送中...</span>
+                <span class="found" data-i18n="terminal_import_files">📁 Parsed 3 files</span>
               </div>
               <div class="cli-line output">
-                <span class="success">✓</span> <span data-i18n="terminal_sync_complete">同步完成 (耗时 1.2s)</span>
+                <span class="keys" data-i18n="terminal_import_keys">🔑 Found 156 translation keys</span>
               </div>
-              <div class="cli-line">
-                <span class="cli-prompt">$</span>
-                <span class="cli-command">_</span>
-                <span class="cursor"></span>
+              <div class="cli-line output">
+                <span class="pushing" data-i18n="terminal_import_pushing">📤 Pushing...</span>
+              </div>
+              <div class="cli-line"><span class="cli-prompt">$</span> yflow sync</div>
+              <div class="cli-line output">
+                <span class="success" data-i18n="terminal_sync_complete">✓ Sync complete (1.2s)</span><span class="cursor"></span>
               </div>
             </div>
           </div>
@@ -414,82 +417,80 @@
   </section>
 
   <!-- Docker Section -->
-  <section class="docker-section" id="docker">
+  <section class="docker-section" id="deploy">
     <div class="section-container">
       <div class="docker-hero">
         <div class="docker-badge">
           <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M13.983 11.078h2.119a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V5.006a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V5.006a.185.185 0 00-.185-.185h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.186.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V5.006a.185.185 0 00-.185-.185H2.136a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186m-2.954 5.43h2.118a.187.187 0 00.186-.186V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186m-2.93 0h2.12a.185.185 0 00.184-.186V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.186.185.186m-2.964 0h2.119a.185.185 0 00.185-.186V9.006a.185.185 0 00-.185-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186m-2.954 5.43h2.118a.186.186 0 00.185-.186v-1.888a.185.185 0 00-.185-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186m-2.93 0h2.12a.185.185 0 00.184-.186v-1.888a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.186.185.186m-2.964 0h2.119a.185.185 0 00.185-.186v-1.888a.185.185 0 00-.185-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.082.186.185.186"/>
+            <path d="M13.983 11.078h2.119a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.119a.185.185 0 0 0-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 0 0 .186-.186V3.574a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 0 0 .186-.186V6.29a.186.186 0 0 0-.186-.185h-2.118a.185.185 0 0 0-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 0 0 .184-.186V6.29a.185.185 0 0 0-.185-.185H8.1a.185.185 0 0 0-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 0 0 .185-.186V6.29a.185.185 0 0 0-.185-.185H5.136a.186.186 0 0 0-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 0 0 .186-.185V9.006a.186.186 0 0 0-.186-.186h-2.118a.185.185 0 0 0-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 0 0 .185-.185V9.006a.185.185 0 0 0-.185-.186h-2.12a.186.186 0 0 0-.185.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.185.185 0 0 0 .184-.185V9.006a.185.185 0 0 0-.184-.186h-2.12a.185.185 0 0 0-.184.185v1.888c0 .102.082.185.185.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 0 0-.75.748 11.376 11.376 0 0 0 .692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 0 0 3.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288Z"/>
           </svg>
         </div>
-        <h2 data-i18n="docker_title">一键部署，就是这么简单</h2>
-        <p class="docker-subtitle" data-i18n="docker_subtitle">不需要懂 Docker，不需要配置环境。<br>一行命令，全部搞定。</p>
+        <h2 data-i18n="docker_title">One-click deployment, made simple</h2>
+        <p class="docker-subtitle" data-i18n="docker_subtitle">No Docker knowledge needed, no environment configuration.<br>One command, and you're ready.</p>
       </div>
-
       <div class="docker-commands">
         <div class="command-card">
           <div class="command-header">
-            <span class="command-label" data-i18n="step_1_clone">Step 1: 克隆项目</span>
+            <span class="command-label" data-i18n="step_1_clone">Step 1: Clone repository</span>
           </div>
           <div class="command-body">
-            <code>git clone https://github.com/ishechuan/yflow.git</code>
-            <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/ishechuan/yflow.git', this)">
+            <code data-i18n="step_1_command">git clone https://github.com/ishechuan/yflow.git</code>
+            <button class="copy-btn" onclick="copyToClipboard('git clone https://github.com/ishechuan/yflow.git', this)" aria-label="Copy">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
               </svg>
             </button>
           </div>
         </div>
         <div class="command-card highlight">
           <div class="command-header">
-            <span class="command-label" data-i18n="step_2_start">Step 2: 一键启动</span>
-            <span class="magic-badge" data-i18n="step_2_magic">✨ 魔法时刻</span>
+            <span class="command-label" data-i18n="step_2_start">Step 2: Start services</span>
+            <span class="magic-badge" data-i18n="step_2_magic">✨ Magic moment</span>
           </div>
           <div class="command-body">
-            <code class="highlight-code">docker-compose up -d</code>
-            <button class="copy-btn" onclick="copyToClipboard('docker-compose up -d', this)">
+            <code class="highlight-code" data-i18n="step_2_command">docker-compose up -d</code>
+            <button class="copy-btn" onclick="copyToClipboard('docker-compose up -d', this)" aria-label="Copy">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
               </svg>
             </button>
           </div>
-          <div class="command-note" data-i18n="step_2_note">自动启动 MySQL、Redis、Backend、Frontend、Docs</div>
+          <div class="command-note" data-i18n="step_2_note">Auto-starts MySQL, Redis, Backend, Frontend, Docs</div>
         </div>
         <div class="command-card">
           <div class="command-header">
-            <span class="command-label" data-i18n="step_3_use">Step 3: 开始使用</span>
+            <span class="command-label" data-i18n="step_3_use">Step 3: Start using</span>
           </div>
           <div class="command-body">
-            <code>访问 http://localhost:80</code>
-            <button class="copy-btn" onclick="copyToClipboard('访问 http://localhost:80', this)">
+            <code data-i18n="step_3_command">Visit http://localhost:80</code>
+            <button class="copy-btn" onclick="copyToClipboard('http://localhost:80', this)" aria-label="Copy">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
               </svg>
             </button>
           </div>
         </div>
       </div>
-
       <div class="docker-services">
-        <h3 data-i18n="services_title">自动编排的服务</h3>
+        <h3 data-i18n="services_title">Auto-orchestrated services</h3>
         <div class="services-grid">
           <div class="service-item">
-            <span class="service-icon">🗄️</span>
+            <span class="service-icon">🐬</span>
             <span class="service-name" data-i18n="service_mysql">MySQL 8.0</span>
           </div>
           <div class="service-item">
-            <span class="service-icon">⚡</span>
+            <span class="service-icon">🔴</span>
             <span class="service-name" data-i18n="service_redis">Redis 7.2</span>
           </div>
           <div class="service-item">
-            <span class="service-icon">🚀</span>
+            <span class="service-icon">🔵</span>
             <span class="service-name" data-i18n="service_backend">Go Backend</span>
           </div>
           <div class="service-item">
-            <span class="service-icon">🎨</span>
+            <span class="service-icon">🟢</span>
             <span class="service-name" data-i18n="service_frontend">Vue Frontend</span>
           </div>
           <div class="service-item">
@@ -509,11 +510,10 @@
   <section class="roadmap" id="roadmap">
     <div class="section-container">
       <div class="section-header">
-        <span class="section-label" data-i18n="section_label_roadmap">产品路线图</span>
-        <h2 class="section-title" data-i18n="section_title_roadmap">我们的规划</h2>
-        <p class="section-subtitle" data-i18n="section_subtitle_roadmap">承认不足，持续改进</p>
+        <span class="section-label" data-i18n="section_label_roadmap">Product Roadmap</span>
+        <h2 class="section-title" data-i18n="section_title_roadmap">Our Plans</h2>
+        <p class="section-subtitle" data-i18n="section_subtitle_roadmap">Acknowledging gaps, continuous improvement</p>
       </div>
-
       <div class="roadmap-timeline">
         <div class="timeline-item completed">
           <div class="timeline-marker">
@@ -522,62 +522,52 @@
             </svg>
           </div>
           <div class="timeline-content">
-            <span class="timeline-date" data-i18n="timeline_done">已完成</span>
-            <h4 data-i18n="timeline_v1_title">v1.0 基础功能</h4>
+            <span class="timeline-date" data-i18n="timeline_done">Completed</span>
+            <h4 data-i18n="timeline_v1_title">v1.0 Core Features</h4>
             <ul>
-              <li data-i18n="timeline_v1_i1">✓ RESTful API 后端 (Go + Gin)</li>
-              <li data-i18n="timeline_v1_i2">✓ 管理后台 (Vue 3 + Element Plus)</li>
-              <li data-i18n="timeline_v1_i3">✓ CLI 工具 (Bun + TypeScript)</li>
-              <li data-i18n="timeline_v1_i4">✓ Docker 部署支持</li>
-              <li data-i18n="timeline_v1_i5">✓ 基础翻译管理</li>
-              <li class="completed">✓ 机器翻译 (LibreTranslate)</li>
+              <li data-i18n="timeline_v1_i1">✓ RESTful API backend (Go + Gin)</li>
+              <li data-i18n="timeline_v1_i2">✓ Admin dashboard (Vue 3 + Element Plus)</li>
+              <li data-i18n="timeline_v1_i3">✓ CLI tool (Bun + TypeScript)</li>
+              <li data-i18n="timeline_v1_i4">✓ Docker deployment support</li>
+              <li data-i18n="timeline_v1_i5">✓ Basic translation management</li>
             </ul>
           </div>
         </div>
-
         <div class="timeline-item current">
-          <div class="timeline-marker pulse">
-            <span>2</span>
-          </div>
+          <div class="timeline-marker pulse">1.1</div>
           <div class="timeline-content">
             <span class="timeline-date" data-i18n="timeline_q1">Q1 2025</span>
-            <h4 data-i18n="timeline_v11_title">v1.1 格式扩展</h4>
+            <h4 data-i18n="timeline_v11_title">v1.1 Format Extensions</h4>
             <ul>
-              <li class="in-progress" data-i18n="timeline_v11_i1">🔄 YAML 格式支持</li>
-              <li class="in-progress" data-i18n="timeline_v11_i2">🔄 Gettext (.po/.mo) 支持</li>
-              <li class="in-progress" data-i18n="timeline_v11_i3">🔄 CSV 批量导入导出</li>
-              <li class="in-progress" data-i18n="timeline_v11_i4">🔄 嵌套 key 扁平化优化</li>
+              <li class="in-progress" data-i18n="timeline_v11_i1">🔄 YAML format support</li>
+              <li class="in-progress" data-i18n="timeline_v11_i2">🔄 Gettext (.po/.mo) support</li>
+              <li class="in-progress" data-i18n="timeline_v11_i3">🔄 CSV import/export</li>
+              <li class="in-progress" data-i18n="timeline_v11_i4">🔄 Nested key flattening</li>
             </ul>
           </div>
         </div>
-
-        <div class="timeline-item future">
-          <div class="timeline-marker">
-            <span>3</span>
-          </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">1.2</div>
           <div class="timeline-content">
             <span class="timeline-date" data-i18n="timeline_q2">Q2 2025</span>
-            <h4 data-i18n="timeline_v12_title">v1.2 协作增强</h4>
+            <h4 data-i18n="timeline_v12_title">v1.2 Collaboration Enhancements</h4>
             <ul>
-              <li data-i18n="timeline_v12_i1">🔜 翻译审核工作流</li>
-              <li data-i18n="timeline_v12_i3">🔜 翻译记忆库</li>
-              <li data-i18n="timeline_v12_i4">🔜 团队活动日志</li>
+              <li class="future" data-i18n="timeline_v12_i1">🔜 Translation review workflow</li>
+              <li class="future" data-i18n="timeline_v12_i3">🔜 Translation memory</li>
+              <li class="future" data-i18n="timeline_v12_i4">🔜 Team activity logs</li>
             </ul>
           </div>
         </div>
-
-        <div class="timeline-item future">
-          <div class="timeline-marker">
-            <span>4</span>
-          </div>
+        <div class="timeline-item">
+          <div class="timeline-marker">2.0</div>
           <div class="timeline-content">
             <span class="timeline-date" data-i18n="timeline_q3">Q3 2025</span>
-            <h4 data-i18n="timeline_v20_title">v2.0 生态完善</h4>
+            <h4 data-i18n="timeline_v20_title">v2.0 Ecosystem</h4>
             <ul>
-              <li data-i18n="timeline_v20_i1">🔜 Webhook 集成</li>
-              <li data-i18n="timeline_v20_i2">🔜 VS Code 插件</li>
-              <li data-i18n="timeline_v20_i3">🔜 GitHub Action</li>
-              <li data-i18n="timeline_v20_i4">🔜 插件系统</li>
+              <li class="future" data-i18n="timeline_v20_i1">🔜 Webhook integration</li>
+              <li class="future" data-i18n="timeline_v20_i2">🔜 VS Code extension</li>
+              <li class="future" data-i18n="timeline_v20_i3">🔜 GitHub Action</li>
+              <li class="future" data-i18n="timeline_v20_i4">🔜 Plugin system</li>
             </ul>
           </div>
         </div>
@@ -591,43 +581,51 @@
       <div class="footer-content">
         <div class="footer-brand">
           <a href="#" class="logo">
-            <svg class="logo-icon" viewBox="0 0 32 32" fill="none">
-              <circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="2"/>
-              <path d="M10 12h12M10 16h8M10 20h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <svg class="logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 4L4 10V22L16 28L28 22V10L16 4Z" stroke="url(#logo-gradient-footer)" stroke-width="2" fill="none"/>
+              <path d="M16 4V28M4 10L16 16L28 10" stroke="url(#logo-gradient-footer)" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="16" cy="16" r="4" fill="url(#logo-gradient-footer)"/>
+              <defs>
+                <linearGradient id="logo-gradient-footer" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#06b6d4"/>
+                  <stop offset="1" stop-color="#14b8a6"/>
+                </linearGradient>
+              </defs>
             </svg>
-            <span data-i18n="logo_text">YFlow</span>
+            <span>YFlow</span>
           </a>
-          <p data-i18n="footer_desc">强大的自托管 i18n 解决方案</p>
+          <p data-i18n="footer_desc">Powerful self-hosted i18n solution</p>
         </div>
         <div class="footer-links">
           <div class="footer-col">
-            <h4 data-i18n="footer_product">产品</h4>
-            <a href="#features" data-i18n="nav_features">特性</a>
-            <a href="#docker" data-i18n="nav_deploy">部署</a>
-            <a href="#roadmap" data-i18n="nav_roadmap">路线图</a>
+            <h4 data-i18n="footer_product">Product</h4>
+            <a href="#features" data-i18n="nav_features">Features</a>
+            <a href="#architecture" data-i18n="nav_architecture">Architecture</a>
+            <a href="#cli" data-i18n="nav_cli">CLI</a>
+            <a href="#deploy" data-i18n="nav_deploy">Deploy</a>
           </div>
           <div class="footer-col">
-            <h4 data-i18n="footer_resources">资源</h4>
-            <a href="#" data-i18n="footer_docs">文档</a>
-            <a href="#" data-i18n="footer_api">API</a>
-            <a href="#">GitHub</a>
+            <h4 data-i18n="footer_resources">Resources</h4>
+            <a href="https://github.com/ishechuan/yflow/blob/main/README.md" data-i18n="footer_docs">Documentation</a>
+            <a href="https://github.com/ishechuan/yflow" data-i18n="footer_api">API Reference</a>
+            <a href="https://github.com/ishechuan/yflow/issues" data-i18n="footer_feedback">Feedback</a>
+            <a href="https://github.com/ishechuan/yflow/blob/main/CONTRIBUTING.md" data-i18n="footer_contribute">Contribute</a>
           </div>
           <div class="footer-col">
-            <h4 data-i18n="footer_community">社区</h4>
-            <a href="#" data-i18n="footer_feedback">反馈</a>
-            <a href="#" data-i18n="footer_contribute">贡献</a>
-            <a href="#" data-i18n="footer_license"> License</a>
+            <h4 data-i18n="footer_community">Community</h4>
+            <a href="https://github.com/ishechuan/yflow" target="_blank">GitHub</a>
+            <a href="https://github.com/ishechuan/yflow/blob/main/LICENSE" data-i18n="footer_license">MIT License</a>
           </div>
         </div>
       </div>
       <div class="footer-bottom">
-        <p data-i18n="footer_mit">MIT License • 开源免费</p>
+        <p data-i18n="footer_mit">MIT License • Open Source</p>
         <p data-i18n="footer_love">Built with ❤️ by Developers, for Developers</p>
       </div>
     </div>
   </footer>
 
   <script src="/translations.js"></script>
-  <script type="module" src="/script.js"></script>
+  <script src="/script.js"></script>
 </body>
 </html>
