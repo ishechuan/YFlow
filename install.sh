@@ -135,7 +135,15 @@ get_latest_release() {
     release_info=$(curl -fsSL "$RELEASE_API_URL")
 
     LATEST_VERSION=$(echo "$release_info" | grep '"tag_name"' | head -1 | sed 's/.*"v\?\([0-9.]*\)".*/\1/')
+    
+    # 尝试从 assets 获取下载链接，如果没有则使用 GitHub tarball
     RELEASE_URL=$(echo "$release_info" | grep '"browser_download_url"' | grep -E '\.(tar\.gz|zip)$' | head -1 | cut -d '"' -f 4)
+    
+    if [ -z "$RELEASE_URL" ]; then
+        # 使用 GitHub 提供的 tarball URL
+        RELEASE_URL=$(echo "$release_info" | grep '"tarball_url"' | head -1 | sed 's/.*"\(https:[^"]*\)".*/\1/')
+        log_info "使用 GitHub 自动打包下载"
+    fi
 
     if [ -z "$LATEST_VERSION" ] || [ -z "$RELEASE_URL" ]; then
         log_error "无法解析版本信息"
@@ -205,10 +213,17 @@ download_and_extract() {
     local extract_dir="$temp_dir/extracted"
     mkdir -p "$extract_dir"
 
+    # 尝试多种解压方式
     tar -xzf "$archive_path" -C "$extract_dir" --strip-components=1 2>/dev/null || {
-        tar -xzf "$archive_path" -C "$extract_dir" 2>/dev/null || {
-            log_error "解压失败"
-            exit 1
+        tar -xf "$archive_path" -C "$extract_dir" --strip-components=1 2>/dev/null || {
+            unzip -q "$archive_path" -d "$extract_dir" 2>/dev/null || {
+                # GitHub tarball 可能没有 .gz 扩展名
+                mv "$archive_path" "$archive_path.tar.gz"
+                tar -xzf "$archive_path.tar.gz" -C "$extract_dir" --strip-components=1 2>/dev/null || {
+                    log_error "解压失败"
+                    exit 1
+                }
+            }
         }
     }
 
