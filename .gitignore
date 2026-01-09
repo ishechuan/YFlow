@@ -28,3 +28,12 @@ tmp
 
 .claude
 CLAUDE.md
+
+# Rust / Cargo
+Cargo.lock
+target/
+**/*.rs.bk
+*.pdb
+
+# Binaries
+bin/

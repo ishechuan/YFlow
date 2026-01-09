@@ -6,14 +6,14 @@
 
 ```bash
 cd cli
-bun install
-bun link
+cargo build --release
+./target/release/yflow --help
 ```
 
 验证安装：
 
 ```bash
-yflow --help
+./target/release/yflow --help
 ```
 
 ## 初始化配置

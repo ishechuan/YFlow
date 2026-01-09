@@ -2,6 +2,7 @@
 
 [![Go Version](https://img.shields.io/badge/Go-1.23-blue)](https://go.dev/)
 [![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D)](https://vuejs.org/)
+[![Rust](https://img.shields.io/badge/Rust-yellow)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 [简体中文](./README.zh-CN.md) | English
@@ -10,12 +11,12 @@ YFlow is a full-stack internationalization management platform designed for mode
 
 ## What is YFlow?
 
-YFlow streamlines the entire i18n lifecycle — from translation management to CLI-based sync automation. Built with Go, Vue 3, and Bun, it offers a powerful admin dashboard, robust API, and developer-friendly CLI tools to automate your localization pipeline.
+YFlow streamlines the entire i18n lifecycle — from translation management to CLI-based sync automation. Built with Go, Vue 3, and Rust, it offers a powerful admin dashboard, robust API, and developer-friendly CLI tools to automate your localization pipeline.
 
 ## Features
 
 - **Team Collaboration** - Multi-language management with role-based access control, invitation system, and real-time collaboration features
-- **CLI Automation** - Scan source code, auto-detect missing translations, and sync with CI/CD pipelines using the Bun-based CLI
+- **CLI Automation** - Scan source code, auto-detect missing translations, and sync with CI/CD pipelines using the Rust-based CLI
 - **Admin Dashboard** - Visual translation editor, language management, project organization, and comprehensive analytics
 - **Developer Experience** - Redis-cached APIs, Swagger documentation, JWT authentication, and Docker deployment support
 
@@ -52,8 +53,8 @@ pnpm dev
 
 # CLI
 cd cli
-bun install
-bun run ./src/index.ts --help
+cargo build --release
+./target/release/yflow --help
 ```
 
 ## Project Structure
@@ -62,7 +63,7 @@ bun run ./src/index.ts --help
 |-----------|-------------|------------|-------|
 | admin-backend | REST API backend | Go / Gin / GORM | [README](./admin-backend/README.md) |
 | admin-frontend | Admin dashboard | Vue 3 / Element Plus | [README](./admin-frontend/README.md) |
-| cli | CLI sync tool | Bun / TypeScript | [README](./cli/README.md) |
+| cli | CLI sync tool | Rust / Clap | [README](./cli/README.md) |
 | docs | Documentation site | VitePress | [View Docs](./docs/) |
 
 ## Documentation

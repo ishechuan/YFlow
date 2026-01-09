@@ -1,0 +1,55 @@
+[package]
+name = "rs-cli"
+version = "1.0.0"
+edition = "2021"
+description = "YFlow CLI - Translation management tool"
+authors = ["YFlow Team"]
+repository = "https://github.com/yflow/yflow"
+keywords = ["i18n", "cli", "translation"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+clap = { version = "4.4", features = ["derive", "cargo"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# HTTP 客户端 - 使用 ureq (基于 rustls，无需 OpenSSL)
+ureq = { version = "2.9", features = ["json"] }
+
+# 异步运行时 (用于文件操作)
+tokio = { version = "1.0", features = ["full"] }
+
+# 并行计算
+rayon = "1.8"
+
+# 进度条
+indicatif = "0.17"
+
+# 错误处理
+anyhow = "1.0"
+thiserror = "1.0"
+
+# 实用工具
+regex = "1.9"
+home = "0.5"
+serde_with = "3.0"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+# 高性能同步原语
+parking_lot = "0.12"
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.0"
+tempfile = "3.8"
+
+[profile.release]
+lto = true
+opt-level = 3
+strip = true
+codegen-units = 1
+
+[[bin]]
+name = "yflow"
+path = "src/main.rs"

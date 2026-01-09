@@ -2,6 +2,7 @@
 
 [![Go版本](https://img.shields.io/badge/Go-1.23-blue)](https://go.dev/)
 [![Vue 3](https://img.shields.io/badge/Vue-3-4FC08D)](https://vuejs.org/)
+[![Rust](https://img.shields.io/badge/Rust-yellow)](https://www.rust-lang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 简体中文 | [English](./README.md)
@@ -10,7 +11,7 @@
 
 ## 什么是语流？
 
-语流简化了整个i18n生命周期——从翻译管理到基于CLI的同步自动化。平台采用 Go、Vue 3 和 Bun 构建，提供强大的管理后台、稳健的API接口和开发者友好的CLI工具，助您自动化本地化流程。
+语流简化了整个i18n生命周期——从翻译管理到基于CLI的同步自动化。平台采用 Go、Vue 3 和 Rust 构建，提供强大的管理后台、稳健的API接口和开发者友好的CLI工具，助您自动化本地化流程。
 
 ## 核心功能
 
@@ -52,8 +53,8 @@ pnpm dev
 
 # CLI
 cd cli
-bun install
-bun run ./src/index.ts --help
+cargo build --release
+./target/release/yflow --help
 ```
 
 ## 项目结构
@@ -62,7 +63,7 @@ bun run ./src/index.ts --help
 |------|------|--------|------|
 | admin-backend | REST API 后端 | Go / Gin / GORM | [README](./admin-backend/README.md) |
 | admin-frontend | 管理后台前端 | Vue 3 / Element Plus | [README](./admin-frontend/README.md) |
-| cli | CLI 同步工具 | Bun / TypeScript | [README](./cli/README.md) |
+| cli | CLI 同步工具 | Rust / Clap | [README](./cli/README.md) |
 | docs | 文档站点 | VitePress | [查看文档](./docs/) |
 
 ## 文档导航
