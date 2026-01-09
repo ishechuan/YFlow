@@ -95,7 +95,7 @@ var translations = {
     arch_frontend_stats: ["8+ 功能页面", "RBAC 权限控制"],
 
     arch_cli: "CLI Tool",
-    arch_cli_badge: "Bun + TS",
+    arch_cli_badge: "Rust + Clap",
     arch_cli_features: [
       "Commander 命令行",
       "自动扫描 JSON 文件",
@@ -138,7 +138,7 @@ var translations = {
     arch_frontend_s2: "RBAC 权限控制",
 
     arch_cli: "CLI Tool",
-    arch_cli_badge: "Bun + TS",
+    arch_cli_badge: "Rust + Clap",
     arch_cli_f1: "Commander 命令行",
     arch_cli_f2: "自动扫描 JSON 文件",
     arch_cli_f3: "扁平化/结构化转换",
@@ -215,7 +215,7 @@ var translations = {
     timeline_v1_items: [
       "✓ RESTful API 后端 (Go + Gin)",
       "✓ 管理后台 (Vue 3 + Element Plus)",
-      "✓ CLI 工具 (Bun + TypeScript)",
+      "✓ CLI 工具 (Rust + Clap)",
       "✓ Docker 部署支持",
       "✓ 基础翻译管理",
       "✓ 机器翻译 (LibreTranslate)"
@@ -242,7 +242,7 @@ var translations = {
     timeline_v20_title: "v2.0 生态完善",
     timeline_v1_i1: "✓ RESTful API 后端 (Go + Gin)",
     timeline_v1_i2: "✓ 管理后台 (Vue 3 + Element Plus)",
-    timeline_v1_i3: "✓ CLI 工具 (Bun + TypeScript)",
+    timeline_v1_i3: "✓ CLI 工具 (Rust + Clap)",
     timeline_v1_i4: "✓ Docker 部署支持",
     timeline_v1_i5: "✓ 基础翻译管理",
     timeline_v11_i1: "🔄 YAML 格式支持",
@@ -368,7 +368,7 @@ var translations = {
     arch_frontend_stats: ["8+ feature pages", "RBAC access control"],
 
     arch_cli: "CLI Tool",
-    arch_cli_badge: "Bun + TS",
+    arch_cli_badge: "Rust + Clap",
     arch_cli_features: [
       "Commander CLI framework",
       "Auto-scan JSON files",
@@ -411,7 +411,7 @@ var translations = {
     arch_frontend_s2: "RBAC access control",
 
     arch_cli: "CLI Tool",
-    arch_cli_badge: "Bun + TS",
+    arch_cli_badge: "Rust + Clap",
     arch_cli_f1: "Commander CLI framework",
     arch_cli_f2: "Auto-scan JSON files",
     arch_cli_f3: "Flat/structured conversion",
@@ -488,7 +488,7 @@ var translations = {
     timeline_v1_items: [
       "✓ RESTful API backend (Go + Gin)",
       "✓ Admin dashboard (Vue 3 + Element Plus)",
-      "✓ CLI tool (Bun + TypeScript)",
+      "✓ CLI tool (Rust + Clap)",
       "✓ Docker deployment support",
       "✓ Basic translation management",
       "✓ Machine Translation (LibreTranslate)"
@@ -515,7 +515,7 @@ var translations = {
     timeline_v20_title: "v2.0 Ecosystem",
     timeline_v1_i1: "✓ RESTful API backend (Go + Gin)",
     timeline_v1_i2: "✓ Admin dashboard (Vue 3 + Element Plus)",
-    timeline_v1_i3: "✓ CLI tool (Bun + TypeScript)",
+    timeline_v1_i3: "✓ CLI tool (Rust + Clap)",
     timeline_v1_i4: "✓ Docker deployment support",
     timeline_v1_i5: "✓ Basic translation management",
     timeline_v11_i1: "🔄 YAML format support",
