@@ -8,8 +8,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME:-yflow}
-      MYSQL_USER: ${DB_USERNAME:-yflow}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      # 注意：MYSQL_USER 和 MYSQL_PASSWORD 仅用于创建普通用户
+      # root 用户只需要 MYSQL_ROOT_PASSWORD
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -59,10 +59,25 @@ services:
       - .env
     environment:
       - VITE_API_URL=${VITE_API_URL:-/api}
-    ports:
-      - "${FRONTEND_PORT:-8081}:8080"
     networks:
       - yflow-network
+
+  # Caddy 反向代理服务
+  caddy:
+    image: caddy:2-alpine
+    container_name: yflow-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./deploy/nginx/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+    networks:
+      - yflow-network
+    depends_on:
+      - frontend
+      - backend
 
   # LibreTranslate 机器翻译服务
   libretranslate:
@@ -86,6 +101,16 @@ services:
     networks:
       - yflow-network
 
+  # Redis 缓存服务
+  redis:
+    image: redis:7-alpine
+    container_name: yflow-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks:
+      - yflow-network
+
 networks:
   yflow-network:
     driver: bridge
@@ -93,3 +118,5 @@ networks:
 volumes:
   mysql_data:
   libretranslate-data:
+  redis_data:
+  caddy_data:
