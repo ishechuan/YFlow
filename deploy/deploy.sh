@@ -332,9 +332,20 @@ check_services_status() {
     local all_running=true
 
     for service in "${services[@]}"; do
-        local status=$(docker compose ps --format json 2>/dev/null | grep -o "\"Service\":\"$service\"[^}]*\"Status\":\"[^\"]*\"" | grep -o '"Status":"[^"]*"' | cut -d'"' -f4 || echo "unknown")
-        if [ "$status" = "running" ] || [ "$status" = "Up" ]; then
-            echo -e "  ${GREEN}✓${NC} $service: 运行中"
+        local container_name=$(docker ps --format '{{.Names}}' | grep -E "^yflow-${service}(-[0-9]+)?$" | head -1)
+        if [ -z "$container_name" ]; then
+            container_name="yflow-${service}"
+        fi
+
+        local status=$(docker inspect --format='{{.State.Status}}' "${container_name}" 2>/dev/null || echo "unknown")
+        local health=$(docker inspect --format='{{.State.Health.Status}}' "${container_name}" 2>/dev/null || echo "")
+
+        if [ "$status" = "running" ]; then
+            if [ -n "$health" ] && [ "$health" != "healthy" ]; then
+                echo -e "  ${YELLOW}✓${NC} $service: $status ($health)"
+            else
+                echo -e "  ${GREEN}✓${NC} $service: 运行中"
+            fi
         else
             echo -e "  ${RED}✗${NC} $service: $status"
             all_running=false

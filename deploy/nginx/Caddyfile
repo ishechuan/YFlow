@@ -1,5 +1,4 @@
 {
-    # 全局日志配置
     admin off
     log {
         level INFO
@@ -9,28 +8,21 @@
         output file /var/log/caddy/access.log {
             roll_size 10mb
             roll_keep 10
-            roll_gzip true
         }
     }
 }
 
-# 域名配置，使用环境变量 DOMAIN，默认 localhost
 {$DOMAIN:localhost} {
-    # 强制 HTTPS
     @http {
         protocol http
     }
-    redirect @http https
+    redir @http https://{host}{uri} 301
 
-    # 健康检查端点
     @health path /health
     handle @health {
-        respond "OK" 200 {
-            content_type "text/plain"
-        }
+        respond "OK" 200
     }
 
-    # API 代理 - 将 /api/* 请求转发到后端
     @api path /api/*
     handle @api {
         reverse_proxy backend:8080 {
@@ -41,14 +33,12 @@
         }
     }
 
-    # 前端静态文件 - 将其他请求转发到前端
     handle /* {
         reverse_proxy frontend:8080 {
             header_up Host {host}
         }
     }
 
-    # TLS 配置 - 自动从 Let's Encrypt 获取证书
     tls {
         on_demand
     }
