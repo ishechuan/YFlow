@@ -21,12 +21,12 @@ MAGENTA='\033[0;35m'
 NC='\033[0m'
 
 # 常量定义
-REPO_OWNER="cerebralatlas"
+REPO_OWNER="ishechuan"
 REPO_NAME="YFlow"
 INSTALL_DIR="$HOME/yflow"
 SCRIPT_VERSION="1.0.0"
 RELEASE_API_URL="https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest"
-INSTALL_SCRIPT_URL="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/install.sh"
+INSTALL_SCRIPT_URL="https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/master/install.sh"
 
 # 日志函数
 log_info() {
