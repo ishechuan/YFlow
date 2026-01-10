@@ -2,11 +2,11 @@ package middleware
 
 import (
 	"fmt"
-	"yflow/internal/api/response"
-	log_utils "yflow/utils"
 	"regexp"
 	"strings"
 	"time"
+	"yflow/internal/api/response"
+	log_utils "yflow/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -18,6 +18,7 @@ type SQLSecurityConfig struct {
 	AllowedSortFields []string // 允许的排序字段
 	AllowedOperators  []string // 允许的操作符
 	ForbiddenKeywords []string // 禁止的关键词
+	AllowedOperations []string // 允许的操作参数值（如create、update、delete）
 }
 
 // DefaultSQLSecurityConfig 默认SQL安全配置
@@ -36,6 +37,7 @@ func DefaultSQLSecurityConfig() SQLSecurityConfig {
 			"CAST", "CONVERT", "SUBSTRING", "CHAR", "ASCII", "WAITFOR",
 			"BENCHMARK", "SLEEP", "LOAD_FILE", "INTO OUTFILE", "INTO DUMPFILE",
 		},
+		AllowedOperations: []string{"create", "update", "delete", "import", "export", "machine_translate"},
 	}
 }
 
@@ -74,18 +76,7 @@ func validateQueryParams(c *gin.Context, config SQLSecurityConfig, logger *zap.L
 				return fmt.Errorf("参数 %s 长度超过限制", key)
 			}
 
-			// 检查危险关键词
-			if containsForbiddenKeywords(value, config.ForbiddenKeywords) {
-				logger.Error("Suspicious query parameter detected",
-					zap.String("param", key),
-					zap.String("value", log_utils.SanitizeLogValue(value)),
-					zap.String("ip", c.ClientIP()),
-					zap.String("path", c.Request.URL.Path),
-				)
-				return fmt.Errorf("参数 %s 包含不允许的内容", key)
-			}
-
-			// 特殊参数验证
+			// 特殊参数验证（先于危险关键词检查）
 			switch key {
 			case "sort", "order_by":
 				if !isAllowedSortField(value, config.AllowedSortFields) {
@@ -99,6 +90,33 @@ func validateQueryParams(c *gin.Context, config SQLSecurityConfig, logger *zap.L
 				if !isValidOffset(value) {
 					return fmt.Errorf("无效的偏移参数: %s", value)
 				}
+			case "operation":
+				if len(config.AllowedOperations) > 0 {
+					allowed := false
+					lowerValue := strings.ToLower(value)
+					for _, op := range config.AllowedOperations {
+						if lowerValue == strings.ToLower(op) {
+							allowed = true
+							break
+						}
+					}
+					if !allowed {
+						return fmt.Errorf("不允许的操作类型: %s", value)
+					}
+				}
+				// operation参数通过验证后跳过危险关键词检查
+				continue
+			}
+
+			// 检查危险关键词（跳过operation参数）
+			if containsForbiddenKeywords(value, config.ForbiddenKeywords) {
+				logger.Error("Suspicious query parameter detected",
+					zap.String("param", key),
+					zap.String("value", log_utils.SanitizeLogValue(value)),
+					zap.String("ip", c.ClientIP()),
+					zap.String("path", c.Request.URL.Path),
+				)
+				return fmt.Errorf("参数 %s 包含不允许的内容", key)
 			}
 		}
 	}

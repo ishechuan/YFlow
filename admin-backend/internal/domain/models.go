@@ -64,7 +64,7 @@ type Translation struct {
 	UpdatedAt  time.Time      `json:"updated_at"`
 	DeletedAt  gorm.DeletedAt `gorm:"index" json:"-"`
 
-	Project  Project  `gorm:"foreignKey:ProjectID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"`   // 关联的项目
+	Project  Project  `gorm:"foreignKey:ProjectID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"`  // 关联的项目
 	Language Language `gorm:"foreignKey:LanguageID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"-"` // 关联的语言
 }
 
@@ -86,27 +86,44 @@ type ProjectMember struct {
 
 // Invitation 邀请码领域模型
 type Invitation struct {
-	ID          uint64         `gorm:"primaryKey" json:"id"`
-	Code        string         `gorm:"size:64;not null;uniqueIndex:idx_invitation_code" json:"code"`                     // 邀请码
-	InviterID   uint64         `gorm:"not null;index:idx_invitation_inviter" json:"inviter_id"`                         // 邀请人ID
-	Role        string         `gorm:"size:20;default:member" json:"role"`                                              // 赋予被邀请人的角色: admin, member, viewer
-	Status      string         `gorm:"size:20;default:active;index:idx_invitation_status" json:"status"`                // 状态: active, used, revoked, expired
-	ExpiresAt   time.Time      `gorm:"not null;index:idx_invitation_expires" json:"expires_at"`                         // 过期时间
-	UsedAt      *time.Time     `json:"used_at,omitempty"`                                                                // 使用时间
-	UsedBy      *uint64        `json:"used_by,omitempty"`                                                                // 被邀请人ID
-	Description string         `gorm:"size:255" json:"description,omitempty"`                                            // 邀请描述
-	CreatedAt   time.Time      `json:"created_at"`
-	UpdatedAt   time.Time      `json:"updated_at"`
+	ID          uint64     `gorm:"primaryKey" json:"id"`
+	Code        string     `gorm:"size:64;not null;uniqueIndex:idx_invitation_code" json:"code"`     // 邀请码
+	InviterID   uint64     `gorm:"not null;index:idx_invitation_inviter" json:"inviter_id"`          // 邀请人ID
+	Role        string     `gorm:"size:20;default:member" json:"role"`                               // 赋予被邀请人的角色: admin, member, viewer
+	Status      string     `gorm:"size:20;default:active;index:idx_invitation_status" json:"status"` // 状态: active, used, revoked, expired
+	ExpiresAt   time.Time  `gorm:"not null;index:idx_invitation_expires" json:"expires_at"`          // 过期时间
+	UsedAt      *time.Time `json:"used_at,omitempty"`                                                // 使用时间
+	UsedBy      *uint64    `json:"used_by,omitempty"`                                                // 被邀请人ID
+	Description string     `gorm:"size:255" json:"description,omitempty"`                            // 邀请描述
+	CreatedAt   time.Time  `json:"created_at"`
+	UpdatedAt   time.Time  `json:"updated_at"`
 
 	Inviter *User `gorm:"foreignKey:InviterID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE" json:"inviter,omitempty"`
 }
 
+// TranslationHistory 翻译历史记录
+type TranslationHistory struct {
+	ID            uint64    `gorm:"primaryKey" json:"id"`
+	TranslationID *uint64   `gorm:"index:idx_translation_history_translation" json:"translation_id,omitempty"` // 关联翻译ID（删除后可为空）
+	ProjectID     uint64    `gorm:"not null;index:idx_translation_history_project" json:"project_id"`          // 冗余字段，便于按项目查询
+	KeyName       string    `gorm:"size:255;index:idx_translation_history_key" json:"key_name"`                // 翻译键名
+	LanguageID    uint64    `gorm:"index:idx_translation_history_language" json:"language_id"`                 // 语言ID
+	OldValue      *string   `gorm:"type:text" json:"old_value,omitempty"`                                      // 旧值（create操作为空）
+	NewValue      *string   `gorm:"type:text" json:"new_value,omitempty"`                                      // 新值（delete操作为空）
+	Operation     string    `gorm:"size:20;index:idx_translation_history_operation" json:"operation"`          // 操作类型：create|update|delete|import|export|machine_translate
+	OperatedBy    uint64    `gorm:"not null;index:idx_translation_history_user" json:"operated_by"`            // 操作者用户ID
+	OperatedAt    time.Time `gorm:"not null;index:idx_translation_history_time" json:"operated_at"`            // 操作时间
+	Metadata      string    `gorm:"type:json" json:"metadata,omitempty"`                                       // 额外信息（JSON格式）
+
+	Translation *Translation `gorm:"foreignKey:TranslationID;constraint:OnUpdate:CASCADE,OnDelete:SET NULL" json:"-"`
+}
+
 // InvitationStatus 邀请状态常量
 const (
-	InvitationStatusActive   = "active"
-	InvitationStatusUsed     = "used"
-	InvitationStatusRevoked  = "revoked"
-	InvitationStatusExpired  = "expired"
+	InvitationStatusActive  = "active"
+	InvitationStatusUsed    = "used"
+	InvitationStatusRevoked = "revoked"
+	InvitationStatusExpired = "expired"
 )
 
 // IsValid 检查邀请是否有效

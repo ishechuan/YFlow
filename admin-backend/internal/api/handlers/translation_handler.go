@@ -13,10 +13,10 @@ import (
 
 // TranslationHandler 翻译处理器
 type TranslationHandler struct {
-	translationService       domain.TranslationService
+	translationService        domain.TranslationService
 	machineTranslationService *service.LibreTranslateService
-	languageRepo             domain.LanguageRepository
-	logger                   *zap.Logger
+	languageRepo              domain.LanguageRepository
+	logger                    *zap.Logger
 }
 
 // NewTranslationHandler 创建翻译处理器
@@ -27,10 +27,10 @@ func NewTranslationHandler(
 	logger *zap.Logger,
 ) *TranslationHandler {
 	return &TranslationHandler{
-		translationService:       translationService,
+		translationService:        translationService,
 		machineTranslationService: machineTranslationService,
-		languageRepo:             languageRepo,
-		logger:                   logger,
+		languageRepo:              languageRepo,
+		logger:                    logger,
 	}
 }
 
@@ -473,7 +473,14 @@ func (h *TranslationHandler) Delete(ctx *gin.Context) {
 		return
 	}
 
-	err = h.translationService.Delete(ctx.Request.Context(), id)
+	// 获取当前用户ID
+	userID, exists := ctx.Get("userID")
+	if !exists {
+		response.Unauthorized(ctx, "未找到用户信息")
+		return
+	}
+
+	err = h.translationService.Delete(ctx.Request.Context(), id, userID.(uint64))
 	if err != nil {
 		switch err {
 		case domain.ErrTranslationNotFound:
@@ -825,4 +832,3 @@ func (h *TranslationHandler) HealthCheck(ctx *gin.Context) {
 	available := h.machineTranslationService.IsAvailable(ctx.Request.Context())
 	response.Success(ctx, gin.H{"available": available})
 }
-

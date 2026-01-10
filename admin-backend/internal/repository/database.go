@@ -2,12 +2,12 @@ package repository
 
 import (
 	"fmt"
-	"yflow/internal/config"
-	"yflow/internal/domain"
-	internal_utils "yflow/internal/utils"
 	"os"
 	"strings"
 	"time"
+	"yflow/internal/config"
+	"yflow/internal/domain"
+	internal_utils "yflow/internal/utils"
 
 	"go.uber.org/zap"
 	"golang.org/x/crypto/bcrypt"
@@ -68,6 +68,7 @@ func InitDB(cfg *config.Config, zapLogger *zap.Logger, monitor *internal_utils.D
 		&domain.Translation{},
 		&domain.ProjectMember{},
 		&domain.Invitation{},
+		&domain.TranslationHistory{},
 	)
 	if err != nil {
 		return nil, fmt.Errorf("自动迁移表结构失败: %w", err)
@@ -282,6 +283,31 @@ func createOptimizationIndexes(db *gorm.DB, zapLogger *zap.Logger) error {
 			Name:      "idx_project_members_role",
 			TableName: "project_members",
 			Columns:   []string{"project_id", "role"},
+			Unique:    false,
+		},
+		// 翻译历史相关索引
+		{
+			Name:      "idx_translation_history_project",
+			TableName: "translation_histories",
+			Columns:   []string{"project_id", "operated_at"},
+			Unique:    false,
+		},
+		{
+			Name:      "idx_translation_history_translation",
+			TableName: "translation_histories",
+			Columns:   []string{"translation_id"},
+			Unique:    false,
+		},
+		{
+			Name:      "idx_translation_history_user",
+			TableName: "translation_histories",
+			Columns:   []string{"operated_by", "operated_at"},
+			Unique:    false,
+		},
+		{
+			Name:      "idx_translation_history_operation",
+			TableName: "translation_histories",
+			Columns:   []string{"operation", "operated_at"},
 			Unique:    false,
 		},
 	}

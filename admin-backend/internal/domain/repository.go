@@ -92,3 +92,12 @@ type InvitationRepository interface {
 	Delete(ctx context.Context, code string) error
 	DeleteByID(ctx context.Context, id uint64) error
 }
+
+// TranslationHistoryRepository 翻译历史数据访问接口
+type TranslationHistoryRepository interface {
+	Create(ctx context.Context, history *TranslationHistory) error
+	CreateBatch(ctx context.Context, histories []*TranslationHistory) error
+	ListByTranslationID(ctx context.Context, translationID uint64, limit, offset int) ([]*TranslationHistory, int64, error)
+	ListByProjectID(ctx context.Context, projectID uint64, params TranslationHistoryQueryParams) ([]*TranslationHistory, int64, error)
+	ListByUserID(ctx context.Context, userID uint64, params TranslationHistoryQueryParams) ([]*TranslationHistory, int64, error)
+}

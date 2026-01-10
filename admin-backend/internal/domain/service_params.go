@@ -84,10 +84,10 @@ type BatchTranslationParams struct {
 
 // DashboardStats 仪表板统计结果
 type DashboardStats struct {
-	TotalProjects     int    `json:"total_projects"`
-	TotalLanguages    int    `json:"total_languages"`
-	TotalTranslations int    `json:"total_translations"`
-	TotalKeys         int    `json:"total_keys"`
+	TotalProjects     int `json:"total_projects"`
+	TotalLanguages    int `json:"total_languages"`
+	TotalTranslations int `json:"total_translations"`
+	TotalKeys         int `json:"total_keys"`
 }
 
 // ========== Project Member Service Params ==========
@@ -110,4 +110,15 @@ type ProjectMemberInfo struct {
 	Username string
 	Email    string
 	Role     string
+}
+
+// ========== Translation History Service Params ==========
+
+// TranslationHistoryQueryParams 翻译历史查询参数
+type TranslationHistoryQueryParams struct {
+	Limit     int
+	Offset    int
+	Operation string // 操作类型筛选
+	StartDate string // 开始时间 (格式: 2006-01-02)
+	EndDate   string // 结束时间 (格式: 2006-01-02)
 }

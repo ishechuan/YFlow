@@ -50,7 +50,7 @@ type TranslationService interface {
 	GetByProjectID(ctx context.Context, projectID uint64, limit, offset int) ([]*Translation, int64, error)
 	GetMatrix(ctx context.Context, projectID uint64, limit, offset int, keyword string) (map[string]map[string]TranslationCell, int64, error)
 	Update(ctx context.Context, id uint64, input TranslationInput, userID uint64) (*Translation, error)
-	Delete(ctx context.Context, id uint64) error
+	Delete(ctx context.Context, id uint64, userID uint64) error
 	DeleteBatch(ctx context.Context, ids []uint64) error
 	Export(ctx context.Context, projectID uint64, format string) ([]byte, error)
 	Import(ctx context.Context, projectID uint64, data []byte, format string) error
@@ -93,26 +93,26 @@ type InvitationService interface {
 
 // CreateInvitationParams 创建邀请参数
 type CreateInvitationParams struct {
-	Role           string `json:"role" binding:"omitempty,oneof=admin member viewer"`
-	ExpiresInDays  int    `json:"expires_in_days"`
-	Description    string `json:"description"`
+	Role          string `json:"role" binding:"omitempty,oneof=admin member viewer"`
+	ExpiresInDays int    `json:"expires_in_days"`
+	Description   string `json:"description"`
 }
 
 // InvitationResult 邀请结果
 type InvitationResult struct {
-	Code           string    `json:"code"`
-	InvitationURL  string    `json:"invitation_url"`
-	Role           string    `json:"role"`
-	ExpiresAt      time.Time `json:"expires_at"`
-	Description    string    `json:"description,omitempty"`
+	Code          string    `json:"code"`
+	InvitationURL string    `json:"invitation_url"`
+	Role          string    `json:"role"`
+	ExpiresAt     time.Time `json:"expires_at"`
+	Description   string    `json:"description,omitempty"`
 }
 
 // InvitationValidationResult 邀请验证结果
 type InvitationValidationResult struct {
-	Valid      bool      `json:"valid"`
-	Inviter    *User     `json:"inviter,omitempty"`
-	Role       string    `json:"role"`
-	ExpiresAt  time.Time `json:"expires_at"`
+	Valid     bool      `json:"valid"`
+	Inviter   *User     `json:"inviter,omitempty"`
+	Role      string    `json:"role"`
+	ExpiresAt time.Time `json:"expires_at"`
 }
 
 // MachineTranslationService 机器翻译服务接口
@@ -131,6 +131,6 @@ type MachineTranslationResult struct {
 
 // MachineTranslationLanguage 支持的语言
 type MachineTranslationLanguage struct {
-	Code  string `json:"code"`
-	Name  string `json:"name"`
+	Code string `json:"code"`
+	Name string `json:"name"`
 }

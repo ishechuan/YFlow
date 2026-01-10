@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"yflow/internal/domain"
 	"strings"
+	"yflow/internal/domain"
 )
 
 // TranslationService 翻译服务实现
@@ -13,6 +13,7 @@ type TranslationService struct {
 	translationRepo domain.TranslationRepository
 	projectRepo     domain.ProjectRepository
 	languageRepo    domain.LanguageRepository
+	historyRepo     domain.TranslationHistoryRepository
 }
 
 // NewTranslationService 创建翻译服务实例
@@ -20,11 +21,13 @@ func NewTranslationService(
 	translationRepo domain.TranslationRepository,
 	projectRepo domain.ProjectRepository,
 	languageRepo domain.LanguageRepository,
+	historyRepo domain.TranslationHistoryRepository,
 ) *TranslationService {
 	return &TranslationService{
 		translationRepo: translationRepo,
 		projectRepo:     projectRepo,
 		languageRepo:    languageRepo,
+		historyRepo:     historyRepo,
 	}
 }
 
@@ -78,6 +81,21 @@ func (s *TranslationService) Create(ctx context.Context, input domain.Translatio
 		}
 		return nil, err
 	}
+
+	// 记录创建历史
+	history := &domain.TranslationHistory{
+		TranslationID: &translation.ID,
+		ProjectID:     translation.ProjectID,
+		KeyName:       translation.KeyName,
+		LanguageID:    translation.LanguageID,
+		OldValue:      nil, // 创建操作没有旧值
+		NewValue:      &translation.Value,
+		Operation:     "create",
+		OperatedBy:    userID,
+		Metadata:      "{}",
+	}
+	// 忽略历史记录错误，不影响主操作
+	_ = s.historyRepo.Create(ctx, history)
 
 	return translation, nil
 }
@@ -339,6 +357,9 @@ func (s *TranslationService) Update(ctx context.Context, id uint64, input domain
 		return nil, err
 	}
 
+	// 保存旧值用于历史记录
+	oldValue := translation.Value
+
 	// 如果项目ID改变，验证新项目
 	if input.ProjectID != 0 && input.ProjectID != translation.ProjectID {
 		_, err := s.projectRepo.GetByID(ctx, input.ProjectID)
@@ -378,16 +399,48 @@ func (s *TranslationService) Update(ctx context.Context, id uint64, input domain
 		return nil, err
 	}
 
+	// 记录更新历史
+	newValue := translation.Value
+	history := &domain.TranslationHistory{
+		TranslationID: &translation.ID,
+		ProjectID:     translation.ProjectID,
+		KeyName:       translation.KeyName,
+		LanguageID:    translation.LanguageID,
+		OldValue:      &oldValue,
+		NewValue:      &newValue,
+		Operation:     "update",
+		OperatedBy:    userID,
+		Metadata:      "{}", // 可以记录变更的字段
+	}
+	// 忽略历史记录错误，不影响主操作
+	_ = s.historyRepo.Create(ctx, history)
+
 	return translation, nil
 }
 
 // Delete 删除翻译
-func (s *TranslationService) Delete(ctx context.Context, id uint64) error {
-	// 检查翻译是否存在
-	_, err := s.translationRepo.GetByID(ctx, id)
+func (s *TranslationService) Delete(ctx context.Context, id uint64, userID uint64) error {
+	// 检查翻译是否存在并获取详情
+	translation, err := s.translationRepo.GetByID(ctx, id)
 	if err != nil {
 		return err
 	}
+
+	// 记录删除历史
+	oldValue := translation.Value
+	history := &domain.TranslationHistory{
+		TranslationID: &translation.ID,
+		ProjectID:     translation.ProjectID,
+		KeyName:       translation.KeyName,
+		LanguageID:    translation.LanguageID,
+		OldValue:      &oldValue,
+		NewValue:      nil,
+		Operation:     "delete",
+		OperatedBy:    userID,
+		Metadata:      "{}",
+	}
+	// 忽略历史记录错误，不影响主操作
+	_ = s.historyRepo.Create(ctx, history)
 
 	return s.translationRepo.Delete(ctx, id)
 }

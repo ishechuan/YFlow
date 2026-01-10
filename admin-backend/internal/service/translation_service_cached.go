@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"yflow/internal/domain"
 	"strconv"
 	"time"
+	"yflow/internal/domain"
 )
 
 // CachedTranslationService 带缓存的翻译服务实现
@@ -231,14 +231,14 @@ func (s *CachedTranslationService) Update(ctx context.Context, id uint64, input 
 }
 
 // Delete 删除翻译（更新缓存）
-func (s *CachedTranslationService) Delete(ctx context.Context, id uint64) error {
+func (s *CachedTranslationService) Delete(ctx context.Context, id uint64, userID uint64) error {
 	// 先获取翻译，用于后续清除缓存
 	translation, err := s.translationService.GetByID(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	err = s.translationService.Delete(ctx, id)
+	err = s.translationService.Delete(ctx, id, userID)
 	if err != nil {
 		return err
 	}

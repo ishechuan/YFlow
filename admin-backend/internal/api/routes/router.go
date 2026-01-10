@@ -16,46 +16,49 @@ import (
 
 // Router 路由器
 type Router struct {
-	UserHandler          *handlers.UserHandler
-	ProjectHandler       *handlers.ProjectHandler
-	LanguageHandler      *handlers.LanguageHandler
-	TranslationHandler   *handlers.TranslationHandler
-	DashboardHandler     *handlers.DashboardHandler
-	ProjectMemberHandler *handlers.ProjectMemberHandler
-	CLIHandler           *handlers.CLIHandler
-	InvitationHandler    *handlers.InvitationHandler
-	middlewareFactory    *middleware.MiddlewareFactory
-	Logger               *zap.Logger
+	UserHandler               *handlers.UserHandler
+	ProjectHandler            *handlers.ProjectHandler
+	LanguageHandler           *handlers.LanguageHandler
+	TranslationHandler        *handlers.TranslationHandler
+	TranslationHistoryHandler *handlers.TranslationHistoryHandler
+	DashboardHandler          *handlers.DashboardHandler
+	ProjectMemberHandler      *handlers.ProjectMemberHandler
+	CLIHandler                *handlers.CLIHandler
+	InvitationHandler         *handlers.InvitationHandler
+	middlewareFactory         *middleware.MiddlewareFactory
+	Logger                    *zap.Logger
 }
 
 // RouterDeps 定义 Router 的依赖（用于 fx.In）
 type RouterDeps struct {
 	fx.In
-	UserHandler          *handlers.UserHandler
-	ProjectHandler       *handlers.ProjectHandler
-	LanguageHandler      *handlers.LanguageHandler
-	TranslationHandler   *handlers.TranslationHandler
-	DashboardHandler     *handlers.DashboardHandler
-	ProjectMemberHandler *handlers.ProjectMemberHandler
-	CLIHandler           *handlers.CLIHandler
-	InvitationHandler    *handlers.InvitationHandler
-	AuthService          domain.AuthService
-	UserService          domain.UserService
-	ProjectMemberService domain.ProjectMemberService
-	Logger               *zap.Logger
+	UserHandler               *handlers.UserHandler
+	ProjectHandler            *handlers.ProjectHandler
+	LanguageHandler           *handlers.LanguageHandler
+	TranslationHandler        *handlers.TranslationHandler
+	TranslationHistoryHandler *handlers.TranslationHistoryHandler
+	DashboardHandler          *handlers.DashboardHandler
+	ProjectMemberHandler      *handlers.ProjectMemberHandler
+	CLIHandler                *handlers.CLIHandler
+	InvitationHandler         *handlers.InvitationHandler
+	AuthService               domain.AuthService
+	UserService               domain.UserService
+	ProjectMemberService      domain.ProjectMemberService
+	Logger                    *zap.Logger
 }
 
 // NewRouter 创建路由器
 func NewRouter(deps RouterDeps) *Router {
 	return &Router{
-		UserHandler:          deps.UserHandler,
-		ProjectHandler:       deps.ProjectHandler,
-		LanguageHandler:      deps.LanguageHandler,
-		TranslationHandler:   deps.TranslationHandler,
-		DashboardHandler:     deps.DashboardHandler,
-		ProjectMemberHandler: deps.ProjectMemberHandler,
-		CLIHandler:           deps.CLIHandler,
-		InvitationHandler:    deps.InvitationHandler,
+		UserHandler:               deps.UserHandler,
+		ProjectHandler:            deps.ProjectHandler,
+		LanguageHandler:           deps.LanguageHandler,
+		TranslationHandler:        deps.TranslationHandler,
+		TranslationHistoryHandler: deps.TranslationHistoryHandler,
+		DashboardHandler:          deps.DashboardHandler,
+		ProjectMemberHandler:      deps.ProjectMemberHandler,
+		CLIHandler:                deps.CLIHandler,
+		InvitationHandler:         deps.InvitationHandler,
 		middlewareFactory: middleware.NewMiddlewareFactory(
 			deps.AuthService,
 			deps.UserService,

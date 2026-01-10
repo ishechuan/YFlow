@@ -54,6 +54,11 @@ func NewTranslationRepository(db *gorm.DB) domain.TranslationRepository {
 	return repository.NewTranslationRepository(db)
 }
 
+// NewTranslationHistoryRepository 提供翻译历史仓储
+func NewTranslationHistoryRepository(db *gorm.DB) domain.TranslationHistoryRepository {
+	return repository.NewTranslationHistoryRepository(db)
+}
+
 // NewProjectMemberRepository 提供项目成员仓储
 func NewProjectMemberRepository(db *gorm.DB) domain.ProjectMemberRepository {
 	return repository.NewProjectMemberRepository(db)
@@ -113,9 +118,10 @@ func NewTranslationService(
 	translationRepo domain.TranslationRepository,
 	projectRepo domain.ProjectRepository,
 	languageRepo domain.LanguageRepository,
+	historyRepo domain.TranslationHistoryRepository,
 	cache domain.CacheService,
 ) domain.TranslationService {
-	base := service.NewTranslationService(translationRepo, projectRepo, languageRepo)
+	base := service.NewTranslationService(translationRepo, projectRepo, languageRepo, historyRepo)
 	if cache != nil {
 		return service.NewCachedTranslationService(base, cache)
 	}

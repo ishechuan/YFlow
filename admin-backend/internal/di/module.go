@@ -28,6 +28,7 @@ var AppModule = fx.Module("app",
 	fx.Provide(NewProjectRepository),
 	fx.Provide(NewLanguageRepository),
 	fx.Provide(NewTranslationRepository),
+	fx.Provide(NewTranslationHistoryRepository),
 	fx.Provide(NewProjectMemberRepository),
 	fx.Provide(NewInvitationRepository),
 
@@ -56,6 +57,7 @@ var AppModule = fx.Module("app",
 	fx.Provide(func(repo domain.LanguageRepository, ts domain.TranslationService, mt *service.LibreTranslateService, logger *zap.Logger) *handlers.TranslationHandler {
 		return handlers.NewTranslationHandler(ts, mt, repo, logger)
 	}),
+	fx.Provide(handlers.NewTranslationHistoryHandler),
 	fx.Provide(handlers.NewProjectMemberHandler),
 	fx.Provide(handlers.NewCLIHandler),
 	fx.Provide(handlers.NewDashboardHandler),

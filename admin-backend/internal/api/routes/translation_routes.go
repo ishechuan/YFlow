@@ -70,4 +70,25 @@ func (r *Router) setupTranslationRoutes(authRoutes *gin.RouterGroup) {
 	{
 		autoFillRoutes.POST("/:project_id/auto-fill-language", r.TranslationHandler.AutoFillLanguage)
 	}
+
+	// 翻译历史路由
+	// 单个翻译历史（需要项目查看权限）
+	translationHistoryRoutes := translationRoutes.Group("")
+	translationHistoryRoutes.Use(r.middlewareFactory.RequireProjectViewer())
+	{
+		translationHistoryRoutes.GET("/:id/history", r.TranslationHistoryHandler.GetByTranslationID)
+	}
+
+	// 项目翻译历史路由（需要项目查看权限）
+	projectHistoryRoutes := authRoutes.Group("/projects")
+	projectHistoryRoutes.Use(r.middlewareFactory.RequireProjectViewer())
+	{
+		projectHistoryRoutes.GET("/:project_id/translation-history", r.TranslationHistoryHandler.GetByProjectID)
+	}
+
+	// 用户翻译历史路由（需要认证）
+	userHistoryRoutes := authRoutes.Group("/users")
+	{
+		userHistoryRoutes.GET("/:id/translation-history", r.TranslationHistoryHandler.GetByUserID)
+	}
 }
